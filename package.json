@@ -1,0 +1,11 @@
+{
+  "name": "steamkit",
+  "version": "0.0.1",
+  "dependencies": {
+    "adm-zip": "*",
+    "crc": "*",
+    "protobuf": "git://github.com/prashtx/protobuf.git#lib-location",
+    "ursa": "*"
+  },
+  "main": "./lib/steamclient"
+}
