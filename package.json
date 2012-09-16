@@ -5,7 +5,7 @@
     "adm-zip": "*",
     "crc": "*",
     "protobuf": "git://github.com/prashtx/protobuf.git#lib-location",
-    "ursa": "*"
+    "ursa": "0.6.x"
   },
   "main": "./lib/steamclient"
 }
