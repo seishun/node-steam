@@ -20,10 +20,10 @@ bot.on('chatInvite', function() {
   bot.joinChat(0x2ee612); // the lower 32 bits of the chat room's SteamID
 });
 
-bot.on('chatMsg', function(message) {
-  // Only the message itself is available. Other data is not yet implemented.
+bot.on('chatMsg', function(message, chatroom) {
+  // Only the message and the source chatroom are available.
   console.log('Received message: ' + message);
   if (message == 'ping') {
-    bot.sendChatMsg(0x2ee612, 'pong');
+    bot.sendChatMsg(chatroom, 'pong');
   }
 });
