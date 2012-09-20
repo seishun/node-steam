@@ -27,3 +27,7 @@ bot.on('chatMsg', function(message, chatroom) {
     bot.sendChatMsg(chatroom, 'pong');
   }
 });
+
+bot.on('kicked', function(steamIdChat) { // TODO: generalize the event?
+  bot.joinChat(steamIdChat); // autorejoin!
+});
