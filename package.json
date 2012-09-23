@@ -5,10 +5,10 @@
   "dependencies": {
     "adm-zip": "*",
     "crc": "*",
-    "protobuf": "git://github.com/prashtx/protobuf.git#lib-location",
-    "ursa": "0.6.x"
+    "protobuf": "git://github.com/seishun/protobuf.git",
+    "ursa": "*"
   },
   "engines": {
-    "node": "0.6.x"
+    "node": "0.8.x"
   }
 }
