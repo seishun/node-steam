@@ -23,11 +23,10 @@ bot.on('ClientChatInvite', function(data) {
   bot.joinChat(data.steamIdChat); // autojoin on invite
 });
 
-bot.on('chatMsg', function(message, chatroom) {
-  // Only the message and the source chatroom are available.
+bot.on('chatMsg', function(chatter, chatRoom, msgType, message) {
   console.log('Received message: ' + message);
   if (message == 'ping') {
-    bot.sendChatMsg(chatroom, 'pong');
+    bot.sendChatRoomMessage(chatRoom, 1, 'pong'); // 1 is plain message, 4 is emote (/me blah)
   }
 });
 
