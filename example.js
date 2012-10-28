@@ -1,6 +1,6 @@
 var SteamClient = require('./');
 
-var bot = new SteamClient(username, password);
+var bot = new SteamClient('username', 'password');
 
 bot.on('connected', function() {
   console.log('Connected!');
@@ -8,28 +8,28 @@ bot.on('connected', function() {
 
 bot.on('loggedOn', function() {
   console.log('Logged in!');
-  bot.send('ClientChangeStatus', {  // you work with protobuf'd messages directly (without wrapper methods)
-    personaState: 1,                // 1 stands for "Online". Otherwise your bot will stay offline
-    playerName: 'Haruhi'            // optional and can be used alone at some other time
-  }); 
+  bot.changeStatus(1); // to display your bot's status as "Online"
+  bot.changeStatus('Haruhi'); // to change its nickname
+  bot.changeStatus('Haruhi', 1); // to do both at once
+  bot.joinChat('103582791431621417'); // the group's SteamID as a string
 });
 
-bot.on('ClientChatInvite', function(data) {
-  // see SteamRE / Resources / Protobufs / steamclient / steammessages_clientserver.proto for other kinds of messages you can listen for
-
-  console.log('Got an invite to ' + data.chatName);
-  
-  // steamIdChat is a buffer containing the 64-bit steamid of the chat room
-  bot.joinChat(data.steamIdChat); // autojoin on invite
+bot.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
+  console.log('Got an invite to ' + chatRoomName + ' from ' + bot.getFriendPersonaName(patronID));
+  bot.joinChat(chatRoomID); // autojoin on invite
 });
 
 bot.on('chatMsg', function(chatter, chatRoom, msgType, message) {
   console.log('Received message: ' + message);
   if (message == 'ping') {
-    bot.sendChatRoomMessage(chatRoom, 1, 'pong'); // 1 is plain message, 4 is emote (/me blah)
+    bot.sendChatRoomMessage(chatRoom, 'pong', 1); // 1 is plain message, 4 is emote (1 by default)
   }
 });
 
 bot.on('kicked', function(steamIdChat) { // TODO: generalize the event?
   bot.joinChat(steamIdChat); // autorejoin!
+});
+
+bot.on('announcement', function(group, headline) { 
+  console.log('Group with SteamID ' + group + ' has posted ' + headline);
 });
