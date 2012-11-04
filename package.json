@@ -5,7 +5,7 @@
   "dependencies": {
     "adm-zip": "*",
     "crc": "*",
-    "protobuf": "git://github.com/seishun/protobuf.git#int64-strings",
+    "protobuf": "*",
     "ref": "*",
     "ursa": "*"
   },
