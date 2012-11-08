@@ -1,16 +1,21 @@
-var SteamClient = require('./');
+var Steam = require('./');
 
-var bot = new SteamClient('username', 'password');
+var bot = new Steam.SteamClient();
+bot.connect();
 
 bot.on('connected', function() {
   console.log('Connected!');
+  bot.logOn('username', 'password');
 });
 
-bot.on('loggedOn', function() {
+bot.on('loggedOn', function(result) {
+  if (result != Steam.EResult.OK) {
+    console.log('Fail:', result);
+    return;
+  }
   console.log('Logged in!');
-  bot.changeStatus(1); // to display your bot's status as "Online"
-  bot.changeStatus('Haruhi'); // to change its nickname
-  bot.changeStatus('Haruhi', 1); // to do both at once
+  bot.setPersonaState(Steam.EPersonaState.Online); // to display your bot's status as "Online"
+  bot.setPersonaName('Haruhi'); // to change its nickname
   bot.joinChat('103582791431621417'); // the group's SteamID as a string
 });
 
@@ -22,7 +27,7 @@ bot.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
 bot.on('chatMsg', function(chatter, message, chatRoom, msgType) {
   console.log('Received message: ' + message);
   if (message == 'ping') {
-    bot.sendChatRoomMessage(chatRoom, 'pong', 1); // 1 is plain message, 4 is emote (1 by default)
+    bot.sendChatRoomMessage(chatRoom, 'pong', Steam.EChatEntryType.ChatMsg); // ChatMsg by default
   }
 });
 

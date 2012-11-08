@@ -1,7 +1,7 @@
 {
   "name": "steamkit",
-  "version": "0.0.2",
-  "main": "./lib/steamclient",
+  "version": "0.0.3",
+  "main": "./lib/steam_client",
   "dependencies": {
     "adm-zip": "*",
     "crc": "*",
