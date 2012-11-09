@@ -1,18 +1,13 @@
 var Steam = require('./');
 
 var bot = new Steam.SteamClient();
-bot.connect();
+bot.logOn('username', 'password');
 
 bot.on('connected', function() {
   console.log('Connected!');
-  bot.logOn('username', 'password');
 });
 
-bot.on('loggedOn', function(result) {
-  if (result != Steam.EResult.OK) {
-    console.log('Fail:', result);
-    return;
-  }
+bot.on('loggedOn', function() {
   console.log('Logged in!');
   bot.setPersonaState(Steam.EPersonaState.Online); // to display your bot's status as "Online"
   bot.setPersonaName('Haruhi'); // to change its nickname

@@ -14,17 +14,13 @@ The API is scarce compared to SteamKit2 - however, most chat functions are imple
 ```js
 var Steam = require('./node-steam');
 var bot = new Steam.SteamClient();
-bot.connect(); // listen for 'connected' event to log on
+bot.logOn('username', 'password');
 ```
 
 You can interface with the bot by calling it methods and listening to its events.
 
 
 ### Methods
-
-#### connect()
-
-#### disconnect()
 
 #### steamID() --> String
 * **Return:** your SteamID as a decimal string
