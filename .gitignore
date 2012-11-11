@@ -8,10 +8,12 @@ lib-cov
 *.gz
 *.py
 
+.c9revisions
 pids
 logs
 results
 
-.c9revisions
 node_modules
 npm-debug.log
+
+bot.js

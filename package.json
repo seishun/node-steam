@@ -1,7 +1,13 @@
 {
-  "name": "steamkit",
+  "name": "steam",
   "version": "0.0.3",
+  "description": "Lets you interface with Steam without running an actual Steam client",
+  "author": "Nicholas <vvnicholas@gmail.com>",
   "main": "./lib/steam_client",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/seishun/node-steam.git"
+  },
   "dependencies": {
     "adm-zip": "*",
     "crc": "*",

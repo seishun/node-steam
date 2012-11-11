@@ -2,17 +2,19 @@
 
 Lets you interface with Steam without running an actual Steam client, similarly to [SteamKit2](https://bitbucket.org/VoiDeD/steamre/wiki/Home). Could be used to run an autonomous chat bot.
 
+Note: if you are looking for the Steam WebAPI wrapper, it has been renamed to _steam-web_.
+
 ## Installation
 
 ```
-git clone git://github.com/seishun/node-steam.git && cd node-steam && npm install
+npm install steam
 ```
 ## Usage
 
 The API is scarce compared to SteamKit2 - however, most chat functions are implemented.
 
 ```js
-var Steam = require('./node-steam');
+var Steam = require('steam');
 var bot = new Steam.SteamClient();
 bot.logOn('username', 'password');
 ```
