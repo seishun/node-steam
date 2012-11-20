@@ -2,16 +2,16 @@
 
 Lets you interface with Steam without running an actual Steam client, similarly to [SteamKit2](https://bitbucket.org/VoiDeD/steamre/wiki/Home). Could be used to run an autonomous chat bot.
 
-Note: if you are looking for the Steam WebAPI wrapper, it has been renamed to _steam-web_.
+Note: if you are looking for the Steam WebAPI wrapper, it has been renamed to `steam-web`.
 
-## Installation
+# Installation
 
 ```
 npm install steam
 ```
-## Usage
+# Usage
 
-The API is scarce compared to SteamKit2 - however, most chat functions are implemented.
+The API is scarce compared to SteamKit2 - however, chat and trade functions are implemented.
 
 ```js
 var Steam = require('steam');
@@ -19,79 +19,87 @@ var bot = new Steam.SteamClient();
 bot.logOn('username', 'password');
 ```
 
-You can interface with the bot by calling it methods and listening to its events.
+You can interface with the bot by calling it methods and listening to its events. Use decimal strings whenever a SteamID is required, not numbers. The bot's `SteamID` property should contain its own SteamID if you're logged on.
 
+See example.js for the usage of some of the available API.
 
-### Methods
+# Methods
 
-#### steamID() --> String
-* **Return:** your SteamID as a decimal string
+## bot.logOn(username, password, [authCode])
 
-#### logOn(String username, String password, [String authCode])
-* username
-* password
-* authCode - SteamGuard code (not tested)
+Optionally, `authCode` is your SteamGuard code (not tested)
 
-#### setPersonaName(String name)
-* name - new profile name
+## bot.setPersonaName(name)
 
-#### setPersonaState(Number state)
-* state - one of Steam.EPersonaState
+## bot.setPersonaState(state)
+`state` is one of `Steam.EPersonaState`. You'll want to call this with `Steam.EPersonaState.Online` upon logon, otherwise you'll show up as offline.
 
-You'll want to call this with EPersonaState.Online upon logon, otherwise you'll show up as offline.
+## var name = bot.getFriendPersonaName(steamId)
 
-#### getFriendPersonaName(String steamId) --> String
-* steamId - SteamID of the user as a decimal string
-* **Return:** the user's current profile name
+## bot.sendChatMessage(target, message, [type])
+`type` equals `Steam.EChatEntryType.ChatMsg` if not provided. Another type you might want to use is `Steam.EChatEntryType.Emote`.
 
-#### sendChatMessage(String target, String message, [Number type])
-* target - SteamID of the user as a decimal string
-* message - the message
-* type - one of Steam.EChatEntryType (ChatMsg by default)
+## bot.joinChat(steamId)
 
-#### joinChat(String steamId)
-* steamId - SteamID of the group as a decimal string
+## bot.sendChatRoomMessage(steamIdChat, message, [type])
+Same arguments as `sendChatMessage`.
 
-#### sendChatRoomMessage(String steamIdChat, String message, [Number type])
-* steamIdChat - SteamID of the group as a decimal string
-* message - the message
-* type - one of Steam.EChatEntryType (ChatMsg by default)
+## bot.trade(user)
+Sends a trade request to the specified SteamID.
 
+## bot.respondToTrade(tradeId, acceptTrade)
+Same `tradeId` as the one passed through the `tradeProposed` event. `acceptTrade` should be `true` or `false`.
 
-### Events
+## bot.cancelTrade(user)
+Cancels your proposed trade to the specified SteamID.
 
-#### connected
-You can now log on
+# Events
 
-#### disconnected
-You should probably reconnect
+## 'connected'
 
-#### loggedOn
-* Number result
+## 'loggedOn'
+You can now safely use all API.
 
-Steam.EResult.OK means you can now safely use all API, otherwise it's an error.
+## 'webLoggedOn'
+* sessionID
+* token
 
-#### loggedOff
-* Number result
+## 'loggedOff'
+* `result` - one of `Steam.EResult`, the reason you were logged off.
 
-#### chatInvite
-* String steamIdChat - SteamID of the chat you were invited to
-* String chatName - name of the chat
-* String steamIdPatron - SteamID of the person who invited you
+You shouldn't use any API now, wait until it reconnects (hopefully).
 
-#### chatMsg
-* String chatter - SteamID of the person who sent the message
-* String message - the message
-* String chatRoom - SteamID of the chat room
-* Number msgType - one of Steam.EChatEntryType
+## 'chatInvite'
+* `steamIdChat`
+* `chatName`
+* `steamIdPatron` - SteamID of the person who invited you.
 
-#### entered, left, disconnected, kicked, banned
-* String chatterActedOn - SteamID of the person who entered/left the chat, disconnected or got kicked/banned
-* String steamIdChat - SteamID of the chat room where it happened
-* String chatterActedBy - SteamID of the person who kicked or banned (same as chatterActedOn if not applicable)
+## 'chatMsg'
+* `chatter`
+* `message`
+* `chatRoom`
+* `msgType` - one of `Steam.EChatEntryType`
 
-#### announcement
-* String group - SteamID of the group that posted the announcement
-* String headline - the headline of the announcement
+## 'entered', 'left', 'disconnected', 'banned'
+* `chatterActedOn`
+* `steamIdChat`
+* `chatterActedBy`
 
-See example.js for the usage of most of the available API.
+## 'tradeProposed'
+* `tradeID`
+* `otherClient` - SteamID
+* `otherName` - seems to be always empty
+
+## 'tradeResult'
+* `tradeID`
+* `response` - one of `Steam.EEconTradeResponse`
+* `otherClient`
+
+## 'sessionStart'
+* `otherClient`
+
+The trade is now available at http://steamcommunity.com/trade/< otherClient >. You must have a cookie containing `sessionID` and `token` received in webLoggedOn.
+
+## 'announcement'
+* `group`
+* `headline`
