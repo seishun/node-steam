@@ -19,15 +19,16 @@ bot.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
   bot.joinChat(chatRoomID); // autojoin on invite
 });
 
-bot.on('chatMsg', function(chatter, message, chatRoom, msgType) {
+bot.on('message', function(source, message, type, chatter) {
+  // respond to both chat room and private messages
   console.log('Received message: ' + message);
   if (message == 'ping') {
-    bot.sendChatRoomMessage(chatRoom, 'pong', Steam.EChatEntryType.ChatMsg); // ChatMsg by default
+    bot.sendMessage(source, 'pong', Steam.EChatEntryType.ChatMsg); // ChatMsg by default
   }
 });
 
 bot.on('kicked', function(chatterActedOn, steamIdChat, chatterActedBy) {
-  if (chatterActedOn == bot.steamID) {
+  if (chatterActedOn.toString() == bot.steamID.toString()) {
     bot.joinChat(steamIdChat);  // autorejoin!
   }
 });
