@@ -15,7 +15,7 @@ bot.on('loggedOn', function() {
 });
 
 bot.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
-  console.log('Got an invite to ' + chatRoomName + ' from ' + bot.getFriendPersonaName(patronID));
+  console.log('Got an invite to ' + chatRoomName + ' from ' + bot.users[patronID].playerName);
   bot.joinChat(chatRoomID); // autojoin on invite
 });
 

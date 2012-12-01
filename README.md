@@ -27,8 +27,22 @@ See example.js for the usage of some of the available API.
 
 The `Steam.SteamID` class encapsulates a [SteamID](https://developer.valvesoftware.com/wiki/SteamID). An instance of `SteamID` can be constructed from a decimal string, and converted to a string by calling its `toString` method. Components of a SteamID can be accessed using properties `accountID`, `accountInstance`, `accountType` and `accountUniverse`.
 
-Whenever a SteamID is returned, it is an instance of `SteamID`. Whenever a SteamID is required, you can pass either a `SteamID` instance, or a decimal string. The `steamID` property of `SteamClient` should contain your own SteamID if you are logged on.
+Whenever a SteamID is returned, it is an instance of `SteamID`. Whenever a SteamID is required, you can pass either a `SteamID` instance, or a decimal string.
 
+
+# Properties
+
+## steamID
+
+Your own SteamID
+
+## users
+
+Information about users you have encountered. `users[<steamid>]` will get you an object containing properties such as `playerName` and `gameName`.
+
+## chatRooms
+
+Information about chat rooms you have joined. `chatRooms[<steamIdChat>]` will get you an object whose keys are the chat's current members, and the values are `'owner'`, `'officer'`, `'moderator'` or `''`.
 
 # Methods
 
@@ -44,16 +58,18 @@ Changes your Steam profile name.
 
 `state` is one of `Steam.EPersonaState`. You'll want to call this with `Steam.EPersonaState.Online` upon logon, otherwise you'll show up as offline.
 
-## getFriendPersonaName(steamID)
-
-Returns the profile name used by the specified user if known, otherwise `undefined`.
-
 ## sendMessage(target, message, [type])
 `target` is the SteamID of a user or a chat. `type` equals `Steam.EChatEntryType.ChatMsg` if not specified. Another type you might want to use is `Steam.EChatEntryType.Emote`.
 
 ## joinChat(steamID)
 
 Joins the chat room of the specified group. Go to the group's Community page, press Ctrl+U and search for "joinchat". Will silently fail if you are not allowed to join.
+
+## kick(steamIdChat, steamIdMember)
+## ban(steamIdChat, steamIdMember)
+## unban(steamIdChat, steamIdMember)
+
+Self-explanatory.
 
 ## trade(user)
 
@@ -107,7 +123,8 @@ Do not use any API now, wait until it reconnects (hopefully).
 ## 'message'
 Same arguments as the above two, captures both events. In case of a friend message, `chatter` will be undefined.
 
-## 'entered', 'left', 'disconnected', 'kicked', 'banned'
+## 'chatStateChange
+* `stateChange` - one of `Steam.EChatMemberStateChange`
 * `chatterActedOn` - SteamID of the user who entered or left the chat room, disconnected, or was kicked or banned
 * `steamIdChat` - SteamID of the chat where it happened
 * `chatterActedBy` - SteamID of the user who kicked or banned
