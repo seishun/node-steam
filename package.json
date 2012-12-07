@@ -1,6 +1,6 @@
 {
   "name": "steam",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Lets you interface with Steam without running an actual Steam client",
   "author": "Nicholas <vvnicholas@gmail.com>",
   "main": "./lib/steam_client",
@@ -13,7 +13,6 @@
     "crc": "*",
     "protobuf": "*",
     "ref": "*",
-    "superagent": "*",
     "ursa": "*"
   },
   "engines": {
