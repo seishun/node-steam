@@ -2,47 +2,80 @@
 
 This is a Node.js port of [SteamKit2](https://bitbucket.org/VoiDeD/steamre/wiki/Home). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
 
-Note: if you are looking for the Steam WebAPI wrapper, it has been renamed to `steam-web`.
+The API is scarce compared to SteamKit2 - however, most chat and trade functions are implemented.
+
 
 # Installation
 
 ```
 npm install steam
 ```
+
 # Usage
-
-The API is scarce compared to SteamKit2 - however, most chat and trade functions are implemented.
-
+First, `require` this module.
 ```js
 var Steam = require('steam');
+```
+`Steam` is now a namespace (implemented as an object) containing the `SteamClient` class and a huge collection of enums (implemented as objects). More on those below.
+
+Then you'll want to create an instance of `SteamClient`, call its `logOn` method and assign event listeners.
+
+```js
 var bot = new Steam.SteamClient();
 bot.logOn('username', 'password');
+bot.on('loggedOn', function() { /* ... */});
 ```
-
-You can interface with the bot by calling its methods and listening to its events.
 
 See example.js for the usage of some of the available API.
 
 # SteamID
 
-The `Steam.SteamID` class encapsulates a [SteamID](https://developer.valvesoftware.com/wiki/SteamID). An instance of `SteamID` can be constructed from a decimal string, and converted to a string by calling its `toString` method. Components of a SteamID can be accessed using properties `accountID`, `accountInstance`, `accountType` and `accountUniverse`.
+Since JavaScript's `Number` type does not have enough precision to store 64-bit integers, SteamIDs are represented as decimal strings. (Just wrap the number in quotes)
 
-Whenever a SteamID is returned, it is an instance of `SteamID`. Whenever a SteamID is required, you can pass either a `SteamID` instance, or a decimal string.
+# Enums
 
+Whenever a method accepts (or an event provides) an `ESomething`, it's a `Number` that represents some enum value. See [steam_language.js](node-steam/tree/master/lib/generated/steam_language.js) for the whole list of them.
+
+Note that you can't easily get the string value from the number, but you probably don't need to. You can still use them in conditions (e.g. `if (type == Steam.EChatEntryType.Emote) ...`) or switch statements.
 
 # Properties
 
 ## steamID
 
-Your own SteamID
+Your own SteamID.
 
 ## users
 
-Information about users you have encountered. `users[<steamid>]` will get you an object containing properties such as `playerName` and `gameName`.
+Information about users you have encountered. It's an object with the following structure:
+
+```js
+{
+  "steamID of the user": {
+    playerName: "the user's current profile name",
+    gameName: "the title of the game the user is currently playing"
+    // ...and other properties that come directly from Steam
+  }
+  // ...other users
+}
+```
 
 ## chatRooms
 
-Information about chat rooms you have joined. `chatRooms[<steamIdChat>]` will get you an object whose keys are the chat's current members, and the values are `'owner'`, `'officer'`, `'moderator'` or `''`.
+Information about chat rooms you have joined. It's an object with the following structure:
+```js
+{
+  "steamID of the chat": {
+    "steamID of one of the chat's current members": {
+      rank: "EClanPermission",
+      permissions: "a bitset of values from EChatPermission"
+    }
+    // other members
+  }
+  // other chats
+}
+```
+
+For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array of the chat's current members, and `steamClient.chatRooms[chatID][memberID].permissions & Steam.EChatPermission.Kick` will evaluate to a nonzero value if the specified user is allowed to kick from the specified chat.
 
 # Methods
 
@@ -56,10 +89,10 @@ Changes your Steam profile name.
 
 ## setPersonaState(state)
 
-`state` is one of `Steam.EPersonaState`. You'll want to call this with `Steam.EPersonaState.Online` upon logon, otherwise you'll show up as offline.
+`state` is `EPersonaState`. You'll want to call this with `EPersonaState.Online` upon logon, otherwise you'll show up as offline.
 
 ## sendMessage(target, message, [type])
-`target` is the SteamID of a user or a chat. `type` equals `Steam.EChatEntryType.ChatMsg` if not specified. Another type you might want to use is `Steam.EChatEntryType.Emote`.
+`target` is the SteamID of a user or a chat. `type` equals `EChatEntryType.ChatMsg` if not specified. Another type you might want to use is `EChatEntryType.Emote`.
 
 ## joinChat(steamID)
 
@@ -100,7 +133,7 @@ You can now safely use all API.
 You can use the callback arguments to construct a cookie to access Steam Community web functions without a separate login.
 
 ## 'loggedOff'
-* `result` - one of `Steam.EResult`, the reason you were logged off
+* `result` - `EResult`, the reason you were logged off
 
 Do not use any API now, wait until it reconnects (hopefully).
 
@@ -112,24 +145,24 @@ Do not use any API now, wait until it reconnects (hopefully).
 ## 'friendMsg'
 * `from` - SteamID of the user
 * `message` - the message
-* `msgType` - one of `Steam.EChatEntryType`
+* `msgType` - `EChatEntryType`
 
 ## 'chatMsg'
 * `chatRoom` - SteamID of the chat room
 * `message` - the message
-* `msgType` - one of `Steam.EChatEntryType`
+* `msgType` - `EChatEntryType`
 * `chatter` - SteamID of the user
 
 ## 'message'
 Same arguments as the above two, captures both events. In case of a friend message, `chatter` will be undefined.
 
 ## 'chatStateChange
-* `stateChange` - one of `Steam.EChatMemberStateChange`
+* `stateChange` - `EChatMemberStateChange`
 * `chatterActedOn` - SteamID of the user who entered or left the chat room, disconnected, or was kicked or banned
 * `steamIdChat` - SteamID of the chat where it happened
 * `chatterActedBy` - SteamID of the user who kicked or banned
 
-Something happened in a chat you are in.
+Something happened in a chat you are in. For example, if `stateChange == Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
 
 ## 'tradeProposed'
 * `tradeID`
@@ -140,7 +173,7 @@ You were offered a trade.
 
 ## 'tradeResult'
 * `tradeID`
-* `response` - one of `Steam.EEconTradeResponse`
+* `response` - `EEconTradeResponse`
 * `otherClient` - SteamID of the user you sent a trade request
 
 Listen for this event if you are the one sending a trade request.

@@ -28,7 +28,7 @@ bot.on('message', function(source, message, type, chatter) {
 });
 
 bot.on('kicked', function(chatterActedOn, steamIdChat, chatterActedBy) {
-  if (chatterActedOn.toString() == bot.steamID.toString()) {
+  if (chatterActedOn == bot.steamID) {
     bot.joinChat(steamIdChat);  // autorejoin!
   }
 });
