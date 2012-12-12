@@ -156,7 +156,7 @@ Do not use any API now, wait until it reconnects (hopefully).
 ## 'message'
 Same arguments as the above two, captures both events. In case of a friend message, `chatter` will be undefined.
 
-## 'chatStateChange
+## 'chatStateChange'
 * `stateChange` - `EChatMemberStateChange`
 * `chatterActedOn` - SteamID of the user who entered or left the chat room, disconnected, or was kicked or banned
 * `steamIdChat` - SteamID of the chat where it happened
