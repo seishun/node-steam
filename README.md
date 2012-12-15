@@ -79,9 +79,9 @@ For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array o
 
 # Methods
 
-## logOn(username, password, [authCode])
+## logOn(username, password, [steamGuard])
 
-Connects to Steam and logs you on upon connecting. Optionally, `authCode` is your SteamGuard code.
+Connects to Steam and logs you on upon connecting. If you have SteamGuard enabled, `steamGuard` is either your SteamGuard code or sentry file hash (see 'sentry' event).
 
 ## setPersonaName(name)
 
@@ -131,6 +131,11 @@ You can now safely use all API.
 * `token`
 
 You can use the callback arguments to construct a cookie to access Steam Community web functions without a separate login.
+
+## 'sentry'
+* `data` - a Buffer containing your SteamGuard sentry file hash
+
+If you have SteamGuard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
 
 ## 'loggedOff'
 * `result` - `EResult`, the reason you were logged off
