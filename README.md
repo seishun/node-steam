@@ -95,6 +95,14 @@ You'll want to call this with `EPersonaState.Online` upon logon, otherwise you'l
 
 Last parameter defaults to `EChatEntryType.ChatMsg`. Another type you might want to use is `EChatEntryType.Emote`.
 
+## addFriend(steamID)
+
+Sends a friend request.
+
+## removeFriend(steamID)
+
+Removes a friend.
+
 ## joinChat(steamID)
 
 Joins the chat room of the specified group. Go to the group's Community page, press Ctrl+U and search for "joinchat". Will silently fail if you are not allowed to join.
@@ -147,6 +155,12 @@ Do not use any API now, wait until it reconnects (hopefully).
 * SteamID of the chat you were invited to
 * name of the chat
 * SteamID of the user who invited you
+
+## 'relationship'
+* SteamID of the user
+* `EFriendRelationship`
+
+Some activity in your friend list. For example, `EFriendRelationship.PendingInvitee` means you got a friend invite, `EFriendRelationship.None` means you got removed.
 
 ## 'friendMsg'
 * SteamID of the user
