@@ -87,34 +87,35 @@ Connects to Steam and logs you on upon connecting. If you have SteamGuard enable
 
 Changes your Steam profile name.
 
-## setPersonaState(state)
+## setPersonaState(EPersonaState)
 
-`state` is `EPersonaState`. You'll want to call this with `EPersonaState.Online` upon logon, otherwise you'll show up as offline.
+You'll want to call this with `EPersonaState.Online` upon logon, otherwise you'll show up as offline.
 
-## sendMessage(target, message, [type])
-`target` is the SteamID of a user or a chat. `type` equals `EChatEntryType.ChatMsg` if not specified. Another type you might want to use is `EChatEntryType.Emote`.
+## sendMessage(steamID, message, [EChatEntryType])
+
+Last parameter defaults to `EChatEntryType.ChatMsg`. Another type you might want to use is `EChatEntryType.Emote`.
 
 ## joinChat(steamID)
 
 Joins the chat room of the specified group. Go to the group's Community page, press Ctrl+U and search for "joinchat". Will silently fail if you are not allowed to join.
 
-## kick(steamIdChat, steamIdMember)
-## ban(steamIdChat, steamIdMember)
-## unban(steamIdChat, steamIdMember)
+## kick(chatSteamID, memberSteamID)
+## ban(chatSteamID, memberSteamID)
+## unban(chatSteamID, memberSteamID)
 
 Self-explanatory.
 
-## trade(user)
+## trade(steamID)
 
-Sends a trade request to the specified SteamID.
+Sends a trade request to the specified user.
 
-## respondToTrade(tradeId, acceptTrade)
+## respondToTrade(tradeID, acceptTrade)
 
-Same `tradeId` as the one passed through the `tradeProposed` event. `acceptTrade` should be `true` or `false`.
+Same `tradeID` as the one passed through the `tradeProposed` event. `acceptTrade` should be `true` or `false`.
 
-## cancelTrade(user)
+## cancelTrade(steamID)
 
-Cancels your proposed trade to the specified SteamID.
+Cancels your proposed trade to the specified user.
 
 # Events
 
@@ -127,69 +128,68 @@ For informative purposes only. Emitted after a successful encryption handshake.
 You can now safely use all API.
 
 ## 'webLoggedOn'
-* `sessionID`
-* `token`
+* sessionID
+* token
 
 You can use the callback arguments to construct a cookie to access Steam Community web functions without a separate login.
 
 ## 'sentry'
-* `data` - a Buffer containing your SteamGuard sentry file hash
+* a Buffer containing your SteamGuard sentry file hash
 
 If you have SteamGuard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
 
 ## 'loggedOff'
-* `result` - `EResult`, the reason you were logged off
+* `EResult`, the reason you were logged off
 
 Do not use any API now, wait until it reconnects (hopefully).
 
 ## 'chatInvite'
-* `chat` - SteamID of the chat you were invited to
-* `chatName` - name of the chat
-* `patron` - SteamID of the user who invited you
+* SteamID of the chat you were invited to
+* name of the chat
+* SteamID of the user who invited you
 
 ## 'friendMsg'
-* `from` - SteamID of the user
-* `message` - the message
-* `msgType` - `EChatEntryType`
+* SteamID of the user
+* the message
+* `EChatEntryType`
 
 ## 'chatMsg'
-* `chatRoom` - SteamID of the chat room
-* `message` - the message
-* `msgType` - `EChatEntryType`
-* `chatter` - SteamID of the user
+* SteamID of the chat room
+* the message
+* `EChatEntryType`
+* SteamID of the chatter
 
 ## 'message'
-Same arguments as the above two, captures both events. In case of a friend message, `chatter` will be undefined.
+Same arguments as the above two, captures both events. In case of a friend message, the fourth argument will be undefined.
 
 ## 'chatStateChange'
-* `stateChange` - `EChatMemberStateChange`
-* `chatterActedOn` - SteamID of the user who entered or left the chat room, disconnected, or was kicked or banned
-* `steamIdChat` - SteamID of the chat where it happened
-* `chatterActedBy` - SteamID of the user who kicked or banned
+* `EChatMemberStateChange`
+* SteamID of the user who entered or left the chat room, disconnected, or was kicked or banned
+* SteamID of the chat where it happened
+* SteamID of the user who kicked or banned
 
-Something happened in a chat you are in. For example, if `stateChange == Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
+Something happened in a chat you are in. For example, if the first argument equals `Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
 
 ## 'tradeProposed'
-* `tradeID`
-* `otherClient` - SteamID
-* `otherName` - seems to be always empty
+* Trade ID
+* SteamID of the user who proposed the trade
 
 You were offered a trade.
 
 ## 'tradeResult'
-* `tradeID`
-* `response` - `EEconTradeResponse`
-* `otherClient` - SteamID of the user you sent a trade request
+* Trade ID
+* `EEconTradeResponse`
+* SteamID of the user you sent a trade request
 
 Listen for this event if you are the one sending a trade request.
 
 ## 'sessionStart'
-* `otherClient`
+* SteamID of the other party
 
-The trade is now available at http://steamcommunity.com/trade/{otherClient}. You need a cookie as described in `webLoggedOn`. You can use [node-steam-trade](https://github.com/seishun/node-steam-trade) to automate the trade itself.
+The trade is now available at http://steamcommunity.com/trade/{SteamID}. You need a cookie as described in `webLoggedOn`. You can use [node-steam-trade](https://github.com/seishun/node-steam-trade) to automate the trade itself.
 
 ## 'announcement'
-* `group` - SteamID
-* `headline`
+* SteamID of the group
+* headline
 
 Use the group's RSS feed to get the body of the announcement if you want it.
