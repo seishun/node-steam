@@ -156,6 +156,11 @@ Do not use any API now, wait until it reconnects (hopefully).
 * name of the chat
 * SteamID of the user who invited you
 
+## 'personaState'
+* Object with new user data
+
+Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has the same structure as in the `users` property, and its `friendid` property contains the user's SteamID. Note that the `users` property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+
 ## 'relationship'
 * SteamID of the user
 * `EFriendRelationship`
