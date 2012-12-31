@@ -27,8 +27,8 @@ bot.on('message', function(source, message, type, chatter) {
   }
 });
 
-bot.on('kicked', function(chatterActedOn, steamIdChat, chatterActedBy) {
-  if (chatterActedOn == bot.steamID) {
+bot.on('chatStateChange', function(stateChange, chatterActedOn, steamIdChat, chatterActedBy) {
+  if (stateChange == Steam.EChatMemberStateChange.Kicked && chatterActedOn == bot.steamID) {
     bot.joinChat(steamIdChat);  // autorejoin!
   }
 });
