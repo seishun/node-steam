@@ -83,6 +83,12 @@ For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array o
 
 Connects to Steam and logs you on upon connecting. If you have SteamGuard enabled, `steamGuard` is either your SteamGuard code or sentry file hash (see 'sentry' event).
 
+## webLogOn(callback)
+
+Logs into Steam Community. You only need this if you know you do. `callback` will be called with your new cookie (as a string).
+
+Do not call this before the first `webSessionID` event, or you'll get a broken cookie. Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
+
 ## setPersonaName(name)
 
 Changes your Steam profile name.
@@ -127,19 +133,22 @@ Cancels your proposed trade to the specified user.
 
 # Events
 
-## 'connected'
+## 'error'
+* `e` - an `Error` object
 
-For informative purposes only. Emitted after a successful encryption handshake.
+Something preventing continued operation of node-steam has occurred. `e.cause` is a string containing one of these values:
+* 'connectFail' - initial connection to Steam failed. `e.error` contains the underlying socket error.
+* 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `ServiceUnavailable`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (SteamGuard code requied).
+* 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, mostly likely `LoggedInElsewhere`.
 
 ## 'loggedOn'
 
 You can now safely use all API.
 
-## 'webLoggedOn'
-* sessionID
-* token
+## 'webSessionID'
+* your new sessionID
 
-You can use the callback arguments to construct a cookie to access Steam Community web functions without a separate login.
+If you are using Steam Community (including trading), you should call `webLogOn` again, since your current cookie is no longer valid.
 
 ## 'sentry'
 * a Buffer containing your SteamGuard sentry file hash
@@ -147,9 +156,12 @@ You can use the callback arguments to construct a cookie to access Steam Communi
 If you have SteamGuard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
 
 ## 'loggedOff'
-* `EResult`, the reason you were logged off
 
-Do not use any API now, wait until it reconnects (hopefully).
+You were logged off from Steam due to it going down. 'disconnected' should follow immediately afterwards. Wait until it reconnects.
+
+## 'disconnected'
+
+You were disconnected from Steam. Don't use any API now - wait until it reconnects.
 
 ## 'chatInvite'
 * SteamID of the chat you were invited to
