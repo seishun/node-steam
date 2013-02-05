@@ -79,9 +79,14 @@ For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array o
 
 # Methods
 
-## logOn(username, password, [steamGuard])
+## logOn(username, password, [sentry], [code])
 
-Connects to Steam and logs you on upon connecting. If you have SteamGuard enabled, `steamGuard` is either your SteamGuard code or sentry file hash (see 'sentry' event).
+Connects to Steam and logs you on upon connecting. If your account has Steam Guard enabled, you should provide at least one of the below:
+
+* `sentry` - your sentry file hash (see 'sentry' event).
+* `code` - the Steam Guard code you'll receive by email. If you have previously logged into another account using node-steam, providing the old hash along with the code will allow you to reuse the same hash for multiple accounts.
+
+If you provide neither, the logon will fail and you'll receive an email with the code.
 
 ## webLogOn(callback)
 
@@ -138,8 +143,8 @@ Cancels your proposed trade to the specified user.
 
 Something preventing continued operation of node-steam has occurred. `e.cause` is a string containing one of these values:
 * 'connectFail' - initial connection to Steam failed. `e.error` contains the underlying socket error.
-* 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `ServiceUnavailable`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (SteamGuard code requied).
-* 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, mostly likely `LoggedInElsewhere`.
+* 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `ServiceUnavailable`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (Steam Guard code required).
+* 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LoggedInElsewhere`.
 
 ## 'loggedOn'
 
@@ -151,9 +156,9 @@ You can now safely use all API.
 If you are using Steam Community (including trading), you should call `webLogOn` again, since your current cookie is no longer valid.
 
 ## 'sentry'
-* a Buffer containing your SteamGuard sentry file hash
+* a Buffer containing your Steam Guard sentry file hash
 
-If you have SteamGuard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
+If you didn't provide a hash when logging in, Steam will send you one through this event. If you have Steam Guard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
 
 ## 'loggedOff'
 
