@@ -16,7 +16,7 @@ First, `require` this module.
 ```js
 var Steam = require('steam');
 ```
-`Steam` is now a namespace (implemented as an object) containing the `SteamClient` class and a huge collection of enums (implemented as objects). More on those below.
+`Steam` is now a namespace (implemented as an object) containing the `SteamClient` class, `servers` property, and a huge collection of enums (implemented as objects). More on those below.
 
 Then you'll want to create an instance of `SteamClient`, call its `logOn` method and assign event listeners.
 
@@ -28,13 +28,17 @@ bot.on('loggedOn', function() { /* ... */});
 
 See example.js for the usage of some of the available API.
 
+# Servers
+
+`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (see [servers.js](https://github.com/seishun/node-steam/blob/master/lib/servers.js)) is not always up-to-date and might contain dead servers. To avoid ETIMEDOUT errors, replace it with your own list before logging in if you have one (see 'servers' event).
+
 # SteamID
 
 Since JavaScript's `Number` type does not have enough precision to store 64-bit integers, SteamIDs are represented as decimal strings. (Just wrap the number in quotes)
 
 # Enums
 
-Whenever a method accepts (or an event provides) an `ESomething`, it's a `Number` that represents some enum value. See [steam_language.js](node-steam/tree/master/lib/generated/steam_language.js) for the whole list of them.
+Whenever a method accepts (or an event provides) an `ESomething`, it's a `Number` that represents some enum value. See [steam_language.js](https://github.com/seishun/node-steam/tree/master/lib/generated/steam_language.js) for the whole list of them.
 
 Note that you can't easily get the string value from the number, but you probably don't need to. You can still use them in conditions (e.g. `if (type == Steam.EChatEntryType.Emote) ...`) or switch statements.
 
@@ -159,6 +163,13 @@ If you are using Steam Community (including trading), you should call `webLogOn`
 * a Buffer containing your Steam Guard sentry file hash
 
 If you didn't provide a hash when logging in, Steam will send you one through this event. If you have Steam Guard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
+
+## 'servers'
+* an Array containing the up-to-date server list
+
+node-steam will use this new list when reconnecting, but it will be lost when your application restarts. You might want to save it to a file or a database and assign it to `Steam.servers` before logging in next time.
+
+Note that `Steam.servers` will be automatically updated _after_ this event is emitted. This will be useful if you want to compare the old list with the new one for some reason - otherwise it shouldn't matter.
 
 ## 'loggedOff'
 
