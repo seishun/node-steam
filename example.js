@@ -7,13 +7,26 @@ if (fs.existsSync('servers')) {
 }
 
 var bot = new Steam.SteamClient();
-bot.logOn('username', 'password');
 
-bot.on('loggedOn', function() {
-  console.log('Logged in!');
-  bot.setPersonaState(Steam.EPersonaState.Online); // to display your bot's status as "Online"
-  bot.setPersonaName('Haruhi'); // to change its nickname
-  bot.joinChat('103582791431621417'); // the group's SteamID as a string
+bot.on('connected', function(result) {
+  if(result == Steam.EResult.OK) {
+    console.log('Connected to Steam, Logging In');
+    bot.logOn('username', 'password');
+
+  } else {
+    console.log('Connection Failed');
+  }
+});
+
+bot.on('loggedOn', function(result) {
+  if(result == Steam.EResult.OK) {
+    console.log('Logged in!');
+    bot.setPersonaState(Steam.EPersonaState.Online); // to display your bot's status as "Online"
+    bot.setPersonaName('Haruhi'); // to change its nickname
+    bot.joinChat('103582791431621417'); // the group's SteamID as a string
+  } else {
+    console.log('Login failed with code: ' + result);
+  }
 });
 
 bot.on('servers', function(servers) {
@@ -39,6 +52,8 @@ bot.on('chatStateChange', function(stateChange, chatterActedOn, steamIdChat, cha
   }
 });
 
-bot.on('announcement', function(group, headline) { 
+bot.on('announcement', function(group, headline) {
   console.log('Group with SteamID ' + group + ' has posted ' + headline);
 });
+
+bot.connect();

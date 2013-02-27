@@ -18,12 +18,24 @@ var Steam = require('steam');
 ```
 `Steam` is now a namespace (implemented as an object) containing the `SteamClient` class, `servers` property, and a huge collection of enums (implemented as objects). More on those below.
 
-Then you'll want to create an instance of `SteamClient`, call its `logOn` method and assign event listeners.
+Then you'll want to create an instance of `SteamClient`, assign event listeners and call its `connect` method.
 
 ```js
 var bot = new Steam.SteamClient();
-bot.logOn('username', 'password');
-bot.on('loggedOn', function() { /* ... */});
+bot.on('connected', onConnected);
+bot.connect();
+```
+
+The bot will emit the `connected` event when it's done connecting with the Steam server, then you can login.
+
+```js
+function onConnected(result) {
+  if(result == Steam.EResult.OK) {
+    bot.logOn('username', 'password');
+  } else {
+    console.log('Failed connecting with status: ' + result);
+  }
+}
 ```
 
 See example.js for the usage of some of the available API.
@@ -55,13 +67,18 @@ Information about users you have encountered. It's an object with the following 
 ```js
 {
   "steamID of the user": {
-    playerName: "the user's current profile name",
-    gameName: "the title of the game the user is currently playing"
-    // ...and other properties that come directly from Steam
+    name: "the user's current profile name",
+    steamID: "steamID of the user",
+    state: "the user's persona state, a Steam.EPersonaState",
+    relationship: "the user's relationship with you, a Steam.EFriendRelationship"
   }
   // ...other users
 }
 ```
+
+## friendList
+
+A subset of `users` containing just users in your friend list.
 
 ## chatRooms
 
@@ -83,9 +100,12 @@ For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array o
 
 # Methods
 
+## connect()
+Connects you to a Steam server.
+
 ## logOn(username, password, [sentry], [code])
 
-Connects to Steam and logs you on upon connecting. If your account has Steam Guard enabled, you should provide at least one of the below:
+Log you in to the connect Steam server. If your account has Steam Guard enabled, you should provide at least one of the below:
 
 * `sentry` - your sentry file hash (see 'sentry' event).
 * `code` - the Steam Guard code you'll receive by email. If you have previously logged into another account using node-steam, providing the old hash along with the code will allow you to reuse the same hash for multiple accounts.
@@ -150,9 +170,15 @@ Something preventing continued operation of node-steam has occurred. `e.cause` i
 * 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `ServiceUnavailable`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (Steam Guard code required).
 * 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LoggedInElsewhere`.
 
-## 'loggedOn'
+## 'connected'
+* An `Steam.EResult` integer containing the server response.
 
-You can now safely use all API.
+If the result is `Steam.EResult.OK`, you are safe to logon.
+
+## 'loggedOn'
+* An `Steam.EResult` integer containing the server response.
+
+If the result is `Steam.EResult.OK`, you are safe to use the rest of the API.
 
 ## 'webSessionID'
 * your new sessionID
@@ -184,16 +210,15 @@ You were disconnected from Steam. Don't use any API now - wait until it reconnec
 * name of the chat
 * SteamID of the user who invited you
 
+## 'friendsList'
+* The `friendList` object
+
+Your friend list has loaded, or some change ocurred (IE: someone added or removed you).
+
 ## 'personaState'
 * Object with new user data
 
-Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has the same structure as in the `users` property, and its `friendid` property contains the user's SteamID. Note that the `users` property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
-
-## 'relationship'
-* SteamID of the user
-* `EFriendRelationship`
-
-Some activity in your friend list. For example, `EFriendRelationship.PendingInvitee` means you got a friend invite, `EFriendRelationship.None` means you got removed.
+Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has the same structure as in the `users` property, and its `steamID` property contains the user's SteamID.
 
 ## 'friendMsg'
 * SteamID of the user
