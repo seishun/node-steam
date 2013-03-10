@@ -146,8 +146,7 @@ Cancels your proposed trade to the specified user.
 * `e` - an `Error` object
 
 Something preventing continued operation of node-steam has occurred. `e.cause` is a string containing one of these values:
-* 'connectFail' - initial connection to Steam failed. `e.error` contains the underlying socket error.
-* 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `ServiceUnavailable`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (Steam Guard code required).
+* 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (Steam Guard code required).
 * 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LoggedInElsewhere`.
 
 ## 'loggedOn'
@@ -177,7 +176,7 @@ You were logged off from Steam due to it going down. 'disconnected' should follo
 
 ## 'disconnected'
 
-You were disconnected from Steam. Don't use any API now - wait until it reconnects.
+Either you were disconnected from Steam, or a connection attempt failed. Don't use any API now - wait until it reconnects.
 
 ## 'chatInvite'
 * SteamID of the chat you were invited to
