@@ -11,6 +11,8 @@ The API is scarce compared to SteamKit2 - however, most chat and trade functions
 npm install steam
 ```
 
+Note: starting from version 0.5.5, node-steam does not support Node.js versions below 0.10.0.
+
 # Usage
 First, `require` this module.
 ```js
