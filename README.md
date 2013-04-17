@@ -124,6 +124,16 @@ Removes a friend.
 
 Joins the chat room of the specified group. Go to the group's Community page, press Ctrl+U and search for "joinchat". Will silently fail if you are not allowed to join.
 
+## lockChat(steamID)
+## unlockChat(steamID)
+
+Locks and unlocks a chat room respectively.
+
+## setModerated(steamID)
+## setUnmoderated(steamID)
+
+Enables and disables officers-only chat respectively.
+
 ## kick(chatSteamID, memberSteamID)
 ## ban(chatSteamID, memberSteamID)
 ## unban(chatSteamID, memberSteamID)
