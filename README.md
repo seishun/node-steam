@@ -100,6 +100,10 @@ Logs into Steam Community. You only need this if you know you do. `callback` wil
 
 Do not call this before the first [`webSessionID` event](#websessionid), or you'll get a broken cookie. Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
 
+## gamesPlayed(appIDs)
+
+Tells Steam you are playing game(s). `appIDs` is an array of AppIDs, for example `[570]`. Multiple AppIDs can (used to?) be used for multi-game idling.
+
 ## setPersonaName(name)
 
 Changes your Steam profile name.
@@ -151,6 +155,10 @@ Same `tradeID` as the one passed through the [`tradeProposed` event](#tradepropo
 ## cancelTrade(steamID)
 
 Cancels your proposed trade to the specified user.
+
+## toGC(appID, type, body, [callback])
+
+Sends a message to Game Coordinator. `body` must be a serialized message without the header (it will be added by node-steam). `type` must be masked accordingly if it's a protobuf message. If `callback` is provided and this message receives a response (jobID based), the ['fromGC' event](#fromgc) will not be emitted, but instead `callback` will be called with `type` and `body` of the response.
 
 # Events
 
@@ -251,3 +259,10 @@ The trade is now available at http://steamcommunity.com/trade/{SteamID}. You nee
 * headline
 
 Use the group's RSS feed to get the body of the announcement if you want it.
+
+## 'fromGC'
+* appID
+* `type` - masked accordingly for protobuf
+* the message body
+
+A message has been received from GC. See also [`toGC`](#togcappid-type-body-callback).
