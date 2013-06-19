@@ -32,7 +32,7 @@ See example.js for the usage of some of the available API.
 
 # Servers
 
-`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (see [servers.js](https://github.com/seishun/node-steam/blob/master/lib/servers.js)) is not always up-to-date and might contain dead servers. To avoid ETIMEDOUT errors, replace it with your own list before logging in if you have one (see 'servers' event).
+`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (see [servers.js](https://github.com/seishun/node-steam/blob/master/lib/servers.js)) is not always up-to-date and might contain dead servers. To avoid ETIMEDOUT errors, replace it with your own list before logging in if you have one (see ['servers' event](#servers-1)).
 
 # SteamID
 
@@ -89,7 +89,7 @@ For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array o
 
 Connects to Steam and logs you on upon connecting. If your account has Steam Guard enabled, you should provide at least one of the below:
 
-* `sentry` - your sentry file hash (see 'sentry' event).
+* `sentry` - your sentry file hash (see ['sentry' event](#sentry)).
 * `code` - the Steam Guard code you'll receive by email. If you have previously logged into another account using node-steam, providing the old hash along with the code will allow you to reuse the same hash for multiple accounts.
 
 If you provide neither, the logon will fail and you'll receive an email with the code.
@@ -98,7 +98,7 @@ If you provide neither, the logon will fail and you'll receive an email with the
 
 Logs into Steam Community. You only need this if you know you do. `callback` will be called with your new cookie (as a string).
 
-Do not call this before the first `webSessionID` event, or you'll get a broken cookie. Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
+Do not call this before the first [`webSessionID` event](#websessionid), or you'll get a broken cookie. Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
 
 ## setPersonaName(name)
 
@@ -146,7 +146,7 @@ Sends a trade request to the specified user.
 
 ## respondToTrade(tradeID, acceptTrade)
 
-Same `tradeID` as the one passed through the `tradeProposed` event. `acceptTrade` should be `true` or `false`.
+Same `tradeID` as the one passed through the [`tradeProposed` event](#tradeproposed). `acceptTrade` should be `true` or `false`.
 
 ## cancelTrade(steamID)
 
@@ -168,7 +168,7 @@ You can now safely use all API.
 ## 'webSessionID'
 * your new sessionID
 
-If you are using Steam Community (including trading), you should call `webLogOn` again, since your current cookie is no longer valid.
+If you are using Steam Community (including trading), you should call [`webLogOn`](#weblogoncallback) again, since your current cookie is no longer valid.
 
 ## 'sentry'
 * a Buffer containing your Steam Guard sentry file hash
@@ -178,13 +178,13 @@ If you didn't provide a hash when logging in, Steam will send you one through th
 ## 'servers'
 * an Array containing the up-to-date server list
 
-node-steam will use this new list when reconnecting, but it will be lost when your application restarts. You might want to save it to a file or a database and assign it to `Steam.servers` before logging in next time.
+node-steam will use this new list when reconnecting, but it will be lost when your application restarts. You might want to save it to a file or a database and assign it to [`Steam.servers`](#servers) before logging in next time.
 
 Note that `Steam.servers` will be automatically updated _after_ this event is emitted. This will be useful if you want to compare the old list with the new one for some reason - otherwise it shouldn't matter.
 
 ## 'loggedOff'
 
-You were logged off from Steam due to it going down. 'disconnected' should follow immediately afterwards. Wait until it reconnects.
+You were logged off from Steam due to it going down. ['disconnected'](#disconnected) should follow immediately afterwards. Wait until it reconnects.
 
 ## 'disconnected'
 
