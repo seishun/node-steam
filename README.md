@@ -130,6 +130,10 @@ Removes a friend.
 
 Joins the chat room of the specified group. Go to the group's Community page, press Ctrl+U and search for "joinchat". Will silently fail if you are not allowed to join.
 
+## leaveChat(steamID)
+
+Leaves the chat room of the specified group. Will silently fail if you are not currently in it. Removes the chat from [chatRooms](#chatrooms).
+
 ## lockChat(steamID)
 ## unlockChat(steamID)
 
@@ -209,6 +213,14 @@ Either you were disconnected from Steam, or a connection attempt failed. Don't u
 * Object with new user data
 
 Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has the same structure as in the `users` property, and its `friendid` property contains the user's SteamID. Note that the `users` property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+
+## 'richPresence'
+**This API is unstable.**
+* SteamID of the user
+* The user's string status (e.g. '#DOTA_RP_FINDING_MATCH' or '#DOTA_RP_PLAYING_AS')
+* Possibly extra args (in Dota 2, hero level and hero name)
+
+Game-specific information about a user. Only received when you're in the same game.
 
 ## 'relationship'
 * SteamID of the user
