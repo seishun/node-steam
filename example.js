@@ -7,7 +7,10 @@ if (fs.existsSync('servers')) {
 }
 
 var bot = new Steam.SteamClient();
-bot.logOn('username', 'password');
+bot.logOn({
+  accountName: 'username',
+  password: 'password'
+});
 
 bot.on('loggedOn', function() {
   console.log('Logged in!');
