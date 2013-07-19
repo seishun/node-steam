@@ -9,7 +9,7 @@ This is a Node.js port of [SteamKit2](https://bitbucket.org/VoiDeD/steamre/wiki/
 npm install steam
 ```
 
-Note: starting from version 0.5.5, node-steam does not support Node.js versions below 0.10.0.
+Note: there are a number of breaking changes in v0.6.0. Please read the [release notes](https://github.com/seishun/node-steam/releases/tag/v0.6.0).
 
 Windows note: this module depends on [ursa](https://github.com/Obvious/ursa). Follow its installation prerequisites first.
 
