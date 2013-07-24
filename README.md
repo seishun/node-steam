@@ -241,7 +241,7 @@ Game-specific information about a user. Only received when you're in the same ga
 
 ### 'relationships'
 
-The [`friends`](#friends) and [`groups`](#groups) properties now contain data.
+The [`friends`](#friends) and [`groups`](#groups) properties now contain data. Listen for this if you want to accept/decline friend requests that came while you were offline, for example.
 
 ### 'friend'
 * SteamID of the user
