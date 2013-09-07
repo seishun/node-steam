@@ -277,6 +277,11 @@ Same arguments as the above two, captures both events. In case of a friend messa
 
 Something happened in a chat you are in. For example, if the first argument equals `Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
 
+### 'tradeOffers'
+* New count (can be zero)
+
+Your number of pending incoming trade offers has changed.
+
 ### 'tradeProposed'
 * Trade ID
 * SteamID of the user who proposed the trade
