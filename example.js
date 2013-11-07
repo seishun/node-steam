@@ -45,3 +45,12 @@ bot.on('chatStateChange', function(stateChange, chatterActedOn, steamIdChat, cha
 bot.on('announcement', function(group, headline) { 
   console.log('Group with SteamID ' + group + ' has posted ' + headline);
 });
+
+bot.on('relationships', function () {
+  for(var friend in bot.friends) {
+    if(bot.friends[friend] === Steam.EFriendRelationship.PendingInvitee) {
+      bot.addFriend(friend);
+      console.log('SteamID ' + friend + ' added!')
+    }
+  }
+});
