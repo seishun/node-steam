@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "adm-zip": "*",
-    "crc": "*",
+    "buffer-crc32": "*",
     "protobuf": "*",
     "ref": "*",
     "ursa": "*"
