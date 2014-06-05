@@ -155,7 +155,7 @@ Removes a friend.
 
 ### joinChat(steamID)
 
-Joins the specified chat room. Will silently fail if you are not allowed to join.
+Attempts to join the specified chat room. The result should arrive in the ['chatEnter' event](#chatenter).
 
 ### leaveChat(steamID)
 
@@ -270,6 +270,12 @@ Some activity in your group list. For example, `EClanRelationship.Invited` means
 
 ### 'message'
 Same arguments as the above two, captures both events. In case of a friend message, the fourth argument will be undefined.
+
+### 'chatEnter'
+* SteamID of the chat room
+* `EChatRoomEnterResponse`
+
+The result of attempting to join a chat. If successful, the list of chat members is available in [`chatRooms`](#chatrooms).
 
 ### 'chatStateChange'
 * `EChatMemberStateChange`
