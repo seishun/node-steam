@@ -173,6 +173,10 @@ Enables and disables officers-only chat respectively.
 
 Self-explanatory.
 
+### chatInvite(chatSteamID, invitedSteamID)
+
+Invites the specified user to the specified chat.
+
 ### trade(steamID)
 
 Sends a trade request to the specified user.
