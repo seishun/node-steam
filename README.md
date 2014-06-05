@@ -41,6 +41,8 @@ See example.js for the usage of some of the available API.
 
 Since JavaScript's `Number` type does not have enough precision to store 64-bit integers, SteamIDs are represented as decimal strings. (Just wrap the number in quotes)
 
+Chat-related methods automatically convert ClanIDs (group's SteamID) to ChatIDs. Conversely, ChatIDs are converted to ClanIDs in chat-related events if it's a group chat (i.e. not an "ad hoc" chat), otherwise left alone. In the following docs, chat SteamID always refers to ClanID for group chats and ChatID otherwise.
+
 # Enums
 
 Whenever a method accepts (or an event provides) an `ESomething`, it's a `Number` that represents some enum value. See [steam_language.js](https://github.com/seishun/node-steam/tree/master/lib/generated/steam_language.js) for the whole list of them.
@@ -153,11 +155,11 @@ Removes a friend.
 
 ### joinChat(steamID)
 
-Joins the chat room of the specified group. Go to the group's Community page, press Ctrl+U and search for "joinchat". Will silently fail if you are not allowed to join.
+Joins the specified chat room. Will silently fail if you are not allowed to join.
 
 ### leaveChat(steamID)
 
-Leaves the chat room of the specified group. Will silently fail if you are not currently in it. Removes the chat from [`chatRooms`](#chatrooms).
+Leaves the specified chat room. Will silently fail if you are not currently in it. Removes the chat from [`chatRooms`](#chatrooms).
 
 ### lockChat(steamID), unlockChat(steamID)
 
