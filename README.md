@@ -181,7 +181,7 @@ Invites the specified user to the specified chat.
 
 Requests the Steam level of a number of specified accounts. The `steamids` argument should be an array of SteamIDs.
 
-The single object parameter of the `callback` has the requested account IDs as properties and the level as their values. Example:
+The single object parameter of the `callback` has the requested SteamIDs as properties and the level as their values. Example:
 
 ```js
 {
