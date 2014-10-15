@@ -177,6 +177,10 @@ Self-explanatory.
 
 Invites the specified user to the specified chat.
 
+### getSteamLevel(accountids, [callback])
+
+Requests the Steam level of a number of specified accounts. The `accountids` argument should be an array of Steam account IDs (the lower 32 bits of the 64-bit SteamID). If provided, the callback will be called when the response is received. The parameter passed to the callback is the same as that passed to the [steamLevels](#steamlevels) event.
+
 ### trade(steamID)
 
 Sends a trade request to the specified user.
@@ -288,6 +292,18 @@ The result of attempting to join a chat. If successful, the list of chat members
 * SteamID of the user who kicked or banned
 
 Something happened in a chat you are in. For example, if the first argument equals `Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
+
+### 'steamLevels'
+* An object containing the Steam level for each requested account ID
+
+Emitted when a response is received to `getSteamLevel`. The single object parameter has the requested account IDs as properties and the level as their values. Example:
+
+```js
+{
+	"46143802": 62,
+	"22202": 7
+}
+```
 
 ### 'tradeOffers'
 * New count (can be zero)
