@@ -177,16 +177,16 @@ Self-explanatory.
 
 Invites the specified user to the specified chat.
 
-### getSteamLevel(accountids, [callback])
+### getSteamLevel(steamids, [callback])
 
-Requests the Steam level of a number of specified accounts. The `accountids` argument should be an array of Steam account IDs (the lower 32 bits of the 64-bit SteamID).
+Requests the Steam level of a number of specified accounts. The `steamids` argument should be an array of 64-bit Steam IDs.
 
 The single object parameter of the `callback` has the requested account IDs as properties and the level as their values. Example:
 
 ```js
 {
-	"46143802": 62,
-	"22202": 7
+	"76561198006409530": 62,
+	"76561197960287930": 7
 }
 ```
 
