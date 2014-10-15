@@ -177,6 +177,19 @@ Self-explanatory.
 
 Invites the specified user to the specified chat.
 
+### getSteamLevel(steamids, callback)
+
+Requests the Steam level of a number of specified accounts. The `steamids` argument should be an array of SteamIDs.
+
+The single object parameter of the `callback` has the requested SteamIDs as properties and the level as their values. Example:
+
+```js
+{
+	"76561198006409530": 62,
+	"76561197960287930": 7
+}
+```
+
 ### trade(steamID)
 
 Sends a trade request to the specified user.
