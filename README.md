@@ -177,7 +177,7 @@ Self-explanatory.
 
 Invites the specified user to the specified chat.
 
-### getSteamLevel(steamids, [callback])
+### getSteamLevel(steamids, callback)
 
 Requests the Steam level of a number of specified accounts. The `steamids` argument should be an array of 64-bit Steam IDs.
 
