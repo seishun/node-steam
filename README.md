@@ -183,6 +183,13 @@ The single object parameter of the `callback` has the requested SteamIDs as prop
 
 Requests friend data. `steamIDs` must be an array. `requestedData` is optional – if falsy, defaults to `EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence | EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo`. The response, if any, should arrive in the ['user' event](#user).
 
+### getNumberOfCurrentPlayers(appID, callback)
+
+Requests the number of people currently playing a specified game. You can specify appID 0 to get the number of users online on Steam. The callback will be called with two parameters:
+
+- `result` - A result from `Steam.EResult`
+- `players` - The number of players for the specified game
+
 ### trade(steamID)
 
 Sends a trade request to the specified user.
