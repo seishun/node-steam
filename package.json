@@ -15,7 +15,9 @@
     "adm-zip": "*",
     "buffer-crc32": "*",
     "bytebuffer": "*",
-    "protobufjs": "*"
+    "protobufjs": "*",
+    "vdf": "*",
+	"binarykvparser": "*"
   },
   "engines": {
     "node": ">=0.12"
