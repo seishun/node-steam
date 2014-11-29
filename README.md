@@ -102,6 +102,10 @@ An object that maps users' SteamIDs to their `EFriendRelationship` with you. Emp
 
 An object that maps groups' SteamIDs to their `EClanRelationship` with you. Empty until ['relationships'](#relationships) is emitted. ['group'](#group) is emitted before this object changes.
 
+### licenses
+
+An array of objects containing info about the packages you own.
+
 ## Methods
 
 ### logOn(logOnDetails)
@@ -338,3 +342,8 @@ Use the group's RSS feed to get the body of the announcement if you want it.
 * optional extra args
 
 A message has been received from GC. The extra arguments are the same as passed to [toGC](#togcappid-type-body-callback) if this message is a JobID-based response to it.
+
+### 'licenses'
+* licenses
+
+Your license list has been received from Steam. The `licenses` argument contains an array of objects containing info about the packages you own. The `licenses` property will be updated after this is emitted, allowing you to compare to see what changed.
