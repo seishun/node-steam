@@ -91,6 +91,12 @@ An object that maps users' SteamIDs to their `EFriendRelationship` with you. Emp
 
 An object that maps groups' SteamIDs to their `EClanRelationship` with you. Empty until ['relationships'](#relationships) is emitted. ['group'](#group) is emitted before this object changes.
 
+### groupsData
+
+An object that maps groups' SteamIDs to various data about them like name, number of members, and more. No groups exist in this list until all the ['groupData'](#groupdata) event is emitted for each group. ['`groupData`'](#groupdata) is emitted before this object changes.
+
+**Important**: You won't get initial group data until you [go online](#setpersonastate).
+
 ## Methods
 
 ### logOn(logOnDetails)
@@ -274,6 +280,11 @@ Some activity in your friend list. For example, `EFriendRelationship.PendingInvi
 * `EClanRelationship`
 
 Some activity in your group list. For example, `EClanRelationship.Invited` means you got invited to a group, `EClanRelationship.Kicked` means you got kicked. The [`groups`](#groups) property is updated after this event is emitted.
+
+### 'groupData'
+* Group data
+
+Data received about some Steam group. The single argument is an object containing the data received from Steam. `data.steamidClan` is the SteamID of the group that changed. The [`groupsData`](#groupsdata) property is updated after this event is emitted.
 
 ### 'friendMsg'
 * SteamID of the user
