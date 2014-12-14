@@ -340,8 +340,21 @@ The trade is now available at http://steamcommunity.com/trade/{SteamID}. You'll 
 ### 'announcement'
 * SteamID of the group
 * headline
+* gid
 
 Use the group's RSS feed to get the body of the announcement if you want it.
+
+You can craft a link to the announcement using the formula `http://steamcommunity.com/gid/<Group SteamID>/announcements/detail/<gid>`.
+
+### 'event'
+* SteamID of the group
+* headline
+* event start time (unix timestamp)
+* gid
+
+An event was posted to a Steam group.
+
+You can craft a link to the event using the formula `http://steamcommunity.com/gid/<Group SteamID>/events/<gid>`.
 
 ### 'fromGC'
 * appID
