@@ -8,11 +8,14 @@
     "type": "git",
     "url": "https://github.com/seishun/node-steam.git"
   },
+  "scripts": {
+    "prepublish": "svn checkout https://github.com/SteamRE/SteamKit/trunk/Resources/Protobufs resources/protobufs && svn checkout https://github.com/SteamRE/SteamKit/trunk/Resources/SteamLanguage resources/steam_language"
+  },
   "dependencies": {
     "adm-zip": "*",
     "buffer-crc32": "*",
-    "protobuf": "*",
-    "ref": "*",
+    "bytebuffer": "*",
+    "protobufjs": "*",
     "ursa": "*"
   },
   "engines": {

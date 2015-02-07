@@ -9,7 +9,7 @@ This is a Node.js port of [SteamKit2](https://github.com/SteamRE/SteamKit). It l
 npm install steam
 ```
 
-Note: there are a number of breaking changes in v0.6.0. Please read the [release notes](https://github.com/seishun/node-steam/releases/tag/v0.6.0).
+Note: when installing from git, you have to additionally run `npm install` inside the project directory to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
 
 Windows note: this module depends on [ursa](https://github.com/Obvious/ursa). Follow its installation prerequisites first.
 
@@ -39,13 +39,13 @@ See example.js for the usage of some of the available API.
 
 # SteamID
 
-Since JavaScript's `Number` type does not have enough precision to store 64-bit integers, SteamIDs are represented as decimal strings. (Just wrap the number in quotes)
+Since JavaScript's Number type does not have enough precision to store 64-bit integers, SteamIDs are represented as decimal strings. (Just wrap the number in quotes)
 
 Chat-related methods automatically convert ClanIDs (group's SteamID) to ChatIDs. Conversely, ChatIDs are converted to ClanIDs in chat-related events if it's a group chat (i.e. not an "ad hoc" chat), otherwise left alone. In the following docs, chat SteamID always refers to ClanID for group chats and ChatID otherwise.
 
 # Enums
 
-Whenever a method accepts (or an event provides) an `ESomething`, it's a `Number` that represents some enum value. See [steam_language.js](https://github.com/seishun/node-steam/tree/master/lib/generated/steam_language.js) for the whole list of them.
+Whenever a method accepts (or an event provides) an `ESomething`, it's a Number that represents some enum value. See [enums.steamd](https://github.com/SteamRE/SteamKit/blob/master/Resources/SteamLanguage/enums.steamd) and [eresult.steamd](https://github.com/SteamRE/SteamKit/blob/master/Resources/SteamLanguage/eresult.steamd) for the whole list of them. For each enum, there is an equivalently named property on `Steam`. The property is an object; for each of the enum's members, there is an equivalently named property on the object with an equivalent value.
 
 Note that you can't easily get the string value from the number, but you probably don't need to. You can still use them in conditions (e.g. `if (type == Steam.EChatEntryType.Emote) ...`) or switch statements.
 
