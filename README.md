@@ -1,6 +1,6 @@
-# Steam for Node.js
+# Steam for Node.js and io.js
 
-This is a Node.js port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
+This is a node port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
 
 
 # Installation
@@ -11,7 +11,7 @@ npm install steam
 
 Note: when installing from git, you have to additionally run `npm install` inside the project directory to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
 
-Windows note: this module depends on [ursa](https://github.com/Obvious/ursa). Follow its installation prerequisites first.
+**Note: only Node.js v0.12 and io.js v1.1 are supported.**
 
 # Usage
 First, `require` this module.
