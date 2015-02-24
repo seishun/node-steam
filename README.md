@@ -63,18 +63,7 @@ Your own SteamID.
 
 ### users
 
-Information about users you have encountered. It's an object with the following structure:
-
-```js
-{
-  "steamID of the user": {
-    playerName: "the user's current profile name",
-    gameName: "the title of the game the user is currently playing"
-    // ...and other properties that come directly from Steam
-  }
-  // ...other users
-}
-```
+Information about users you have encountered. It's an object whose keys are SteamIDs and values are objects with the same structure as in the ['user' event](#user).
 
 ### chatRooms
 
@@ -248,7 +237,15 @@ You were logged off from Steam due to it going down. It will keep trying to reco
 ### 'user'
 * Object with new user data
 
-Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has the same structure as in the [`users`](#users) property, and its `friendid` property contains the user's SteamID. Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has a property for each set field in [CMsgClientPersonaState.Friend](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) with the name converted to camelCase. The values have the following types:
+
+* `gameServerIp`: String (e.g. '88.221.39.235')
+* `lastLogoff`, `lastLogon`: Date objects
+* other `uint32` fields: Number
+* `fixed64` fields: String
+* `bytes` fields: Buffer objects
+
+Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
 
 ### 'richPresence'
 **This API is unstable.**
