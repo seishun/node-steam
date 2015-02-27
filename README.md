@@ -11,7 +11,7 @@ npm install steam
 
 Note: when installing from git, you have to additionally run `npm install` inside the project directory to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
 
-**Note: only Node.js v0.12 and io.js v1.1 are supported.**
+**Note: only Node.js v0.12 and io.js v1.4 are supported.**
 
 # Usage
 First, `require` this module.
