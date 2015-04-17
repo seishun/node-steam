@@ -216,6 +216,18 @@ The callback has two arguments:
 - `err` - If an error occurred, this is a string explaining the error
 - `servers` - An array of server objects. Each object has a `serverIp`, `serverPort`, and a count of in-game `authPlayers` (as reported by Steam).
 
+### getServerList(filter, limit, callback)
+
+Requests a list of up to 5,000 game servers. Unlike the `serverQuery` method, this method returns more than just server addresses and player counts. See the list of possible fields [here](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_gameservers.steamclient.proto#L10-L29). The `filter` should be a string similar to `filterText` in `serverQuery`, and the `limit` should be a number up to 5000. The `callback` will be called with an array of server objects.
+
+### getServerSteamIDsByIP(ips, callback)
+
+Requests the SteamID that is currently being used by servers at particular addresses. `ips` should be an array of IP addresses. The `callback` will be called with an object that maps IP addresses to SteamIDs.
+
+### getServerIPsBySteamID(steamids, callback)
+
+Same as `getServerSteamIDsByIP` but in reverse. `steamids` should be an array of SteamID strings. The `callback` will be called with an object that maps SteamIDs to IP addresses.
+
 ## Events
 
 ### 'error'
