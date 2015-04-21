@@ -49,6 +49,17 @@ Whenever a method accepts (or an event provides) an `ESomething`, it's a Number 
 
 Note that you can't easily get the string value from the number, but you probably don't need to. You can still use them in conditions (e.g. `if (type == Steam.EChatEntryType.Emote) ...`) or switch statements.
 
+# Protobufs
+
+Whenever an event provides a `CMsgSomething`, it's an object that represents a protobuf message. It has a property for each set field in the specified message with the name converted to camelCase. The values have the following types:
+
+* IP addresses (`uint32`): String (e.g. '88.221.39.235')
+* timestamps (`uint32` and `fixed32`): Date objects
+* other `(u)int32` fields: Number
+* `fixed64` and `string` fields: String
+* `bytes` fields: Buffer objects
+* `bool` fields: Boolean
+
 # SteamClient
 
 ## Properties
@@ -63,7 +74,7 @@ Your own SteamID.
 
 ### users
 
-Information about users you have encountered. It's an object whose keys are SteamIDs and values are objects with the same structure as in the ['user' event](#user).
+Information about users you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) objects.
 
 ### chatRooms
 
@@ -239,17 +250,9 @@ You were logged off from Steam due to it going down. It will keep trying to reco
 * SteamID of the user who invited you
 
 ### 'user'
-* Object with new user data
+* [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
 
-Someone has gone offline/online, started a game, changed their nickname or something else. The provided object has a property for each set field in [CMsgClientPersonaState.Friend](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) with the name converted to camelCase. The values have the following types:
-
-* `gameServerIp`: String (e.g. '88.221.39.235')
-* `lastLogoff`, `lastLogon`: Date objects
-* other `uint32` fields: Number
-* `fixed64` fields: String
-* `bytes` fields: Buffer objects
-
-Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+Someone has gone offline/online, started a game, changed their nickname or something else. Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
 
 ### 'richPresence'
 **This API is unstable.**
