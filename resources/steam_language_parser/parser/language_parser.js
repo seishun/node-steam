@@ -1,3 +1,6 @@
+var fs = require('fs');
+var path = require('path');
+
 exports.Token = function(name, value) {
   this.name = name;
   this.value = value;
@@ -30,7 +33,8 @@ var groupNames = [
 
 var regexPattern = new RegExp(pattern, 'gm');
 
-exports.tokenizeString = function(buffer) {
+exports.tokenizeString = function(fileName, languagePath) {
+  var buffer = fs.readFileSync(path.join(languagePath, fileName), { encoding: 'ascii' });
   var match;
 
   var tokenList = [];

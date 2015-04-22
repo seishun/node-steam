@@ -1,17 +1,11 @@
-var fs = require('fs');
 var token_analyzer = require('./parser/token_analyzer');
 
 var codeGen = require('./generator/node_gen');
 var languagePath = require('path').join(__dirname, '../steam_language');
 
-var cwd = process.cwd();
-process.chdir(languagePath);
+var tokenList = require('./parser/language_parser').tokenizeString('steammsg.steamd', languagePath);
 
-var tokenList = require('./parser/language_parser').tokenizeString(fs.readFileSync('steammsg.steamd', { encoding: 'ascii' }));
-
-var root = token_analyzer.analyze(tokenList);
-
-process.chdir(cwd);
+var root = token_analyzer.analyze(tokenList, languagePath);
 
 var rootEnumNode = new token_analyzer.Node();
 var rootMessageNode = new token_analyzer.Node();

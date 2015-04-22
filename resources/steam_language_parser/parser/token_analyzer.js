@@ -18,7 +18,7 @@ exports.EnumNode = function() {
   exports.Node.call(this);
 };
 
-exports.analyze = function(tokens) {
+exports.analyze = function(tokens, languagePath) {
   var root = new exports.Node();
   
   while (tokens.length > 0) {
@@ -31,9 +31,9 @@ exports.analyze = function(tokens) {
         var text = expect(tokens, 'string');
         
         if (cur.value == 'import') {
-          var parentTokens = language_parser.tokenizeString(require('fs').readFileSync(text.value, { encoding: 'ascii' }));
+          var parentTokens = language_parser.tokenizeString(text.value, languagePath);
           
-          var newRoot = exports.analyze(parentTokens);
+          var newRoot = exports.analyze(parentTokens, languagePath);
           
           newRoot.childNodes.forEach(function(child) {
             root.childNodes.push(child);
