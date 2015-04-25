@@ -289,6 +289,9 @@ Some activity in your group list. For example, `EClanRelationship.Invited` means
 ### 'message'
 Same arguments as the above two, captures both events. In case of a friend message, the fourth argument will be undefined.
 
+### 'friendMsgEchoToSender'
+Same as '[friendMsg](#friendmsg)', except it is a message you send to a friend on another client.
+
 ### 'chatEnter'
 * SteamID of the chat room
 * `EChatRoomEnterResponse`
