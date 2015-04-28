@@ -220,6 +220,7 @@ Something preventing continued operation of node-steam has occurred. `e.cause` i
 * 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LoggedInElsewhere`.
 
 ### 'loggedOn'
+* [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
 
 You can now safely use all API.
 
