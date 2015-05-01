@@ -206,7 +206,7 @@ Sends a message to Game Coordinator. `body` must be a serialized message without
 
 Something preventing continued operation of node-steam has occurred. `e.cause` is a string containing one of these values:
 * 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (Steam Guard code required).
-* 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LoggedInElsewhere`.
+* 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LogonSessionReplaced`.
 
 ### 'loggedOn'
 
