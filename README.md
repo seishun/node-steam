@@ -190,6 +190,14 @@ The single object parameter of the `callback` has the requested SteamIDs as prop
 }
 ```
 
+### requestFreeLicense(appIDs, [callback])
+
+Request a free-on-demand license for one or more apps. `appIDs` must be an array of appIDs. The optional `callback` gets three parameters:
+
+- `result` - A value from the `Steam.EResult` enum. Note that `1` (`OK`) does not necessarily mean that you were granted licenses for all apps you requested.
+- `packages` - An array of packageIDs that you were granted as a result of this call.
+- `apps` - An array of appIDs that you passed in which you now have access to. Note that if you pass in an app that you already have access to, no package will be granted and you'll get its ID back in this array.
+
 ### requestFriendData(steamIDs, [requestedData])
 
 Requests friend data. `steamIDs` must be an array. `requestedData` is optional – if falsy, defaults to `EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence | EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo`. The response, if any, should arrive in the ['user' event](#user).
