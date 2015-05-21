@@ -3,3 +3,9 @@ npm-debug.log
 
 resources/protobufs
 resources/steam_language
+
+master.js
+steamtools.js
+webapi.js
+cache
+accounts.txt
