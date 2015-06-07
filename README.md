@@ -72,6 +72,10 @@ A boolean that indicates whether you are currently logged on. ['loggedOn'](#logg
 
 Your own SteamID.
 
+### vanityUrl
+
+Your own custom URL to your profile.
+
 ### users
 
 Information about users you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) objects.
@@ -209,6 +213,10 @@ Same `tradeID` as the one passed through the ['tradeProposed' event](#tradepropo
 ### cancelTrade(steamID)
 
 Cancels your proposed trade to the specified user.
+
+### activateSteamKey(key, callback)
+
+Activates Steam key. The only argument to `callback` will be [`ClientPurchaseResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_2.proto).
 
 ### toGC(appID, type, body, [args...])
 
