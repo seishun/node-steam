@@ -32,7 +32,7 @@ steamClient.on('servers', function(servers) {
 });
 
 steamFriends.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
-  console.log('Got an invite to ' + chatRoomName + ' from ' + steamFriends.users[patronID].player_name);
+  console.log('Got an invite to ' + chatRoomName + ' from ' + steamFriends.personaStates[patronID].player_name);
   steamFriends.joinChat(chatRoomID); // autojoin on invite
 });
 
@@ -50,6 +50,8 @@ steamFriends.on('chatStateChange', function(stateChange, chatterActedOn, steamId
   }
 });
 
-steamFriends.on('announcement', function(group, headline) {
-  console.log('Group with SteamID ' + group + ' has posted ' + headline);
+steamFriends.on('clanState', function(clanState) {
+  if (clanState.announcements.length) {
+    console.log('Group with SteamID ' + clanState.steamid_clan + ' has posted ' + clanState.announcements[0].headline);
+  }
 });

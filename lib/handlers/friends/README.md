@@ -10,9 +10,13 @@ Chat-related methods automatically convert ClanIDs (group's SteamID) to ChatIDs.
 
 ## Properties
 
-### users
+### personaStates
 
 Information about users you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) objects.
+
+### clanStates
+
+Information about groups you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientClanState`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) objects.
 
 ### chatRooms
 
@@ -114,10 +118,15 @@ Blocks a friend if `setIgnore` is `true`, unblocks them if it's `false`. The fir
 * name of the chat
 * SteamID of the user who invited you
 
-### 'user'
+### 'personaState'
 * [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
 
-Someone has gone offline/online, started a game, changed their nickname or something else. Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+Someone has gone offline/online, started a game, changed their nickname or something else. Note that the [`personaStates`](#personastates) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+
+### 'clanState'
+* [`CMsgClientClanState`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
+
+Some group has posted an event or an announcement, changed their avatar or something else. Note that the [`clanStates`](#clanstates) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
 
 ### 'relationships'
 
@@ -165,9 +174,3 @@ The result of attempting to join a chat. If successful, the list of chat members
 * SteamID of the user who kicked or banned
 
 Something happened in a chat you are in. For example, if the first argument equals `Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
-
-### 'announcement'
-* SteamID of the group
-* headline
-
-Use the group's RSS feed to get the body of the announcement if you want it.
