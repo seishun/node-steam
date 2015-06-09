@@ -216,7 +216,7 @@ Cancels your proposed trade to the specified user.
 
 ### activateSteamKey(key, callback)
 
-Activates Steam key. The only argument to `callback` will be [`ClientPurchaseResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_2.proto).
+Activates Steam key. The only argument to `callback` will be [`CMsgClientPurchaseResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_2.proto).
 
 ### toGC(appID, type, body, [args...])
 
