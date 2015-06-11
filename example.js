@@ -13,7 +13,7 @@ var steamFriends = new Steam.SteamFriends(steamClient);
 steamClient.connect();
 steamClient.on('connected', function() {
   steamUser.logOn({
-    accountName: 'username',
+    account_name: 'username',
     password: 'password'
   });
 });
@@ -32,7 +32,7 @@ steamClient.on('servers', function(servers) {
 });
 
 steamFriends.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
-  console.log('Got an invite to ' + chatRoomName + ' from ' + steamFriends.users[patronID].playerName);
+  console.log('Got an invite to ' + chatRoomName + ' from ' + steamFriends.users[patronID].player_name);
   steamFriends.joinChat(chatRoomID); // autojoin on invite
 });
 

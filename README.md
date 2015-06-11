@@ -57,7 +57,7 @@ Note that you can't easily get the string value from the number, but you probabl
 
 # Protobufs
 
-Whenever a method accepts (or an event provides) a `CMsgSomething`, it's an object that represents a protobuf message. It has a property for each set field in the specified message with the name converted to camelCase. The values have the following types:
+Whenever a method accepts (or an event provides) a `CMsgSomething`, it's an object that represents a protobuf message. It has an equivalently named property for each set field in the specified message with the type as follows:
 
 * `(u)int32` and `fixed32` fields: Number
 * `uint64`, `fixed64` and `string` fields: String
