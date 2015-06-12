@@ -14,6 +14,8 @@ var readerTypeMap = {
   ulong: 'Uint64'
 };
 
+var protoMask = 0x80000000;
+
 exports.emitNamespace = function() {};
 
 exports.emitSerialBase = function() {};
@@ -164,7 +166,9 @@ function emitClassEncoder(cnode, baseSize) {
       if (prop.flagsOpt) {
         this[prop.name].copyTo(bb);
       } else {
-        bb['write' + readerTypeMap[typestr]](this[prop.name]);
+        bb['write' + readerTypeMap[typestr]](~['protomask', 'protomaskgc'].indexOf(prop.flags) ?
+          this[prop.name] | protoMask
+          : this[prop.name]);
       }
     }.bind(this));
     
@@ -211,6 +215,9 @@ function emitClassDecoder(cnode) {
           buffer.skip(+prop.flagsOpt);
         } else {
           object[symname] = buffer['read' + readerTypeMap[typestr]]();
+          if (~['protomask', 'protomaskgc'].indexOf(prop.flags)) {
+            object[symname] &= ~protoMask;
+          }
         }
       }
     });
