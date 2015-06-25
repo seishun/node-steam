@@ -12,9 +12,9 @@ var steamUser = new Steam.SteamUser(steamClient);
 
 Sets `SteamClient#steamID` to the default value for user accounts and sends a ClientLogon message. `logOnDetails` is a [`CMsgClientLogon`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) object. It's used as-is except `protocol_version` is set to the currently implemented protocol version.
 
-### gamesPlayed(appIDs)
+### gamesPlayed(gamesPlayed)
 
-Tells Steam you are playing game(s). `appIDs` is an array of AppIDs, for example `[570]`. Multiple AppIDs can (used to?) be used for multi-game idling.
+Tells Steam you are playing game(s). `gamesPlayed` is a [`CMsgClientGamesPlayed`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) object.
 
 ## Events
 
