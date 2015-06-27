@@ -18,10 +18,11 @@ Tells Steam you are playing game(s). `gamesPlayed` is a [`CMsgClientGamesPlayed`
 
 ## Events
 
-### 'sentry'
-* a Buffer containing your Steam Guard sentry file hash
+### 'updateMachineAuth'
+* [`CMsgClientUpdateMachineAuth`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_2.proto)
+* `callback`
 
-If you didn't provide a hash when logging in, Steam will send you one through this event. If you have Steam Guard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
+Call `callback` with a [`CMsgClientUpdateMachineAuthResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_2.proto) object to accept this sentry update.
 
 ### 'tradeOffers'
 * New count (can be zero)
