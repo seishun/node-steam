@@ -248,14 +248,6 @@ You were logged off from Steam due to it going down. It will keep trying to reco
 
 Someone has gone offline/online, started a game, changed their nickname or something else. Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
 
-### 'richPresence'
-**This API is unstable.**
-* SteamID of the user
-* the user's string status (e.g. '#DOTA_RP_FINDING_MATCH' or '#DOTA_RP_PLAYING_AS')
-* optional extra args (in Dota 2, hero level and hero name)
-
-Game-specific information about a user. Only received when you're in the same game.
-
 ### 'relationships'
 
 The [`friends`](#friends) and [`groups`](#groups) properties now contain data (unless your friend/group list is empty). Listen for this if you want to accept/decline friend requests that came while you were offline, for example.
