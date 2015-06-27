@@ -123,12 +123,6 @@ You can call this method at any time. If you are already logged on, logs you off
 
 Logs you off from Steam. If you are already logged off, does nothing. If there is an ongoing connection attempt, cancels it. Will not emit either ['loggedOff'](#loggedoff) or ['error'](#error).
 
-### webLogOn(callback)
-
-Logs into Steam Community. You only need this if you know you do. `callback` will be called with an array of your new cookies (as strings).
-
-Do not call this before the first ['webSessionID' event](#websessionid), or you'll get a broken cookie. Feel free to call this whenever you need to refresh your web session - for example, if you log into the same account from a browser on another computer.
-
 ### gamesPlayed(appIDs)
 
 Tells Steam you are playing game(s). `appIDs` is an array of AppIDs, for example `[570]`. Multiple AppIDs can (used to?) be used for multi-game idling.
@@ -227,11 +221,6 @@ Something preventing continued operation of node-steam has occurred. `e.cause` i
 * [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
 
 You can now safely use all API.
-
-### 'webSessionID'
-* your new sessionID
-
-If you are using Steam Community (including trading), you should call [webLogOn](#weblogoncallback) again, since your current cookie is no longer valid.
 
 ### 'sentry'
 * a Buffer containing your Steam Guard sentry file hash
@@ -335,7 +324,7 @@ Listen for this event if you are the one sending a trade request.
 ### 'sessionStart'
 * SteamID of the other party
 
-The trade is now available at http://steamcommunity.com/trade/{SteamID}. You'll need the cookies from [webLogOn](#weblogoncallback). You can use [node-steam-trade](https://github.com/seishun/node-steam-trade) to automate the trade itself.
+The trade is now available at http://steamcommunity.com/trade/{SteamID}. You can use [node-steam-trade](https://github.com/seishun/node-steam-trade) to automate the trade itself.
 
 ### 'announcement'
 * SteamID of the group
