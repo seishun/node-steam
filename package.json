@@ -14,7 +14,7 @@
   "dependencies": {
     "adm-zip": "*",
     "buffer-crc32": "*",
-    "bytebuffer": "*",
+    "bytebuffer": ">=3.5.5",
     "protobufjs": ">=4.0.0"
   },
   "engines": {
