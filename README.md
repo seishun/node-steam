@@ -53,9 +53,7 @@ Note that you can't easily get the string value from the number, but you probabl
 
 Whenever an event provides a `CMsgSomething`, it's an object that represents a protobuf message. It has a property for each set field in the specified message with the name converted to camelCase. The values have the following types:
 
-* IP addresses (`uint32`): String (e.g. '88.221.39.235')
-* timestamps (`uint32` and `fixed32`): Date objects
-* other `(u)int32` fields: Number
+* `(u)int32` fields: Number
 * `fixed64` and `string` fields: String
 * `bytes` fields: Buffer objects
 * `bool` fields: Boolean
