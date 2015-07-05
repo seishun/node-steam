@@ -18,17 +18,25 @@ First, `require` this module.
 ```js
 var Steam = require('steam');
 ```
-`Steam` is now a namespace (implemented as an object) containing the SteamClient class, `servers` property, and a huge collection of enums (implemented as objects). More on those below.
+`Steam` is now a namespace object containing:
+* [SteamClient class](#steamclient)
+* [Several handler classes](#handlers)
+* [`servers` property](#servers)
+* [Enums](#enums)
 
-Then you'll want to create an instance of SteamClient, call its [logOn](#logonlogondetails) method and assign event listeners.
+Then you'll want to create an instance of SteamClient and any handlers you need, call [SteamClient#connect](#connect) and assign event listeners.
 
 ```js
-var bot = new Steam.SteamClient();
-bot.logOn({
-  accountName: 'username',
-  password: 'password'
+var steamClient = new Steam.SteamClient();
+var steamUser = new Steam.SteamUser(steamClient);
+steamClient.connect();
+steamClient.on('connected', function() {
+  steamUser.logOn({
+    accountName: 'username',
+    password: 'password'
+  });
 });
-bot.on('loggedOn', function() { /* ... */});
+steamClient.on('logOnResponse', function() { /* ... */});
 ```
 
 See example.js for the usage of some of the available API.
@@ -41,8 +49,6 @@ See example.js for the usage of some of the available API.
 
 Since JavaScript's Number type does not have enough precision to store 64-bit integers, SteamIDs are represented as decimal strings. (Just wrap the number in quotes)
 
-Chat-related methods automatically convert ClanIDs (group's SteamID) to ChatIDs. Conversely, ChatIDs are converted to ClanIDs in chat-related events if it's a group chat (i.e. not an "ad hoc" chat), otherwise left alone. In the following docs, chat SteamID always refers to ClanID for group chats and ChatID otherwise.
-
 # Enums
 
 Whenever a method accepts (or an event provides) an `ESomething`, it's a Number that represents some enum value. See [enums.steamd](https://github.com/SteamRE/SteamKit/blob/master/Resources/SteamLanguage/enums.steamd) and [eresult.steamd](https://github.com/SteamRE/SteamKit/blob/master/Resources/SteamLanguage/eresult.steamd) for the whole list of them. For each enum, there is an equivalently named property on `Steam`. The property is an object; for each of the enum's members, there is an equivalently named property on the object with an equivalent value.
@@ -51,179 +57,67 @@ Note that you can't easily get the string value from the number, but you probabl
 
 # Protobufs
 
-Whenever an event provides a `CMsgSomething`, it's an object that represents a protobuf message. It has a property for each set field in the specified message with the name converted to camelCase. The values have the following types:
+Whenever a method accepts (or an event provides) a `CMsgSomething`, it's an object that represents a protobuf message. It has a property for each set field in the specified message with the name converted to camelCase. The values have the following types:
 
-* `(u)int32` fields: Number
-* `fixed64` and `string` fields: String
+* `(u)int32` and `fixed32` fields: Number
+* `uint64`, `fixed64` and `string` fields: String
 * `bytes` fields: Buffer objects
 * `bool` fields: Boolean
+
+# Handlers
+
+Most of the API is provided by handler classes that internally send and receive low-level client messages using ['message'/send](#messagesend):
+
+* [SteamUser](lib/handlers/user) - user account-related functionality, including logon.
+* [SteamFriends](lib/handlers/friends) - Community functionality, such as chats and friend messages.
+* [SteamTrading](lib/handlers/trading) - sending and receiving trade requests. Not to be confused with trade offers.
+* [SteamGameCoordinator](lib/handlers/game_coordinator) - sending and receiving Game Coordinator messages.
+
+If you think some unimplemented functionality belongs in one of the existing handlers, feel free to submit an issue to discuss it.
 
 # SteamClient
 
 ## Properties
 
+### connected
+
+A boolean that indicates whether you are currently connected and the encryption handshake is complete. ['connected'](#connected-1) is emitted when it changes to `true`, and ['error'](#error) is emitted when it changes to `false` unless you called [disconnect](#disconnect). Sending any client messages is only allowed while this is `true`.
+
 ### loggedOn
 
-A boolean that indicates whether you are currently logged on. ['loggedOn'](#loggedon-1) is emitted when it changes to `true`, and ['loggedOff'](#loggedoff) or ['error'](#error) when it changes to `false`, unless you called [logOff](#logoff). Accessing any other properties or calling any methods other than [logOn](#logonlogondetails) or [logOff](#logoff) is only allowed while logged on.
+A boolean that indicates whether you are currently logged on. Calling any handler methods other than [SteamUser#logOn](lib/handlers/user#logonlogondetails) is only allowed while logged on.
 
 ### steamID
 
-Your own SteamID.
-
-### users
-
-Information about users you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) objects.
-
-### chatRooms
-
-Information about chat rooms you have joined. It's an object with the following structure:
-```js
-{
-  "steamID of the chat": {
-    "steamID of one of the chat's current members": {
-      rank: "EClanPermission",
-      permissions: "a bitset of values from EChatPermission"
-    }
-    // other members
-  }
-  // other chats
-}
-```
-
-For example, `Object.keys(steamClient.chatRooms[chatID])` will return an array of the chat's current members, and `steamClient.chatRooms[chatID][memberID].permissions & Steam.EChatPermission.Kick` will evaluate to a nonzero value if the specified user is allowed to kick from the specified chat.
-
-### friends
-
-An object that maps users' SteamIDs to their `EFriendRelationship` with you. Empty until ['relationships'](#relationships) is emitted. ['friend'](#friend) is emitted before this object changes.
-
-### groups
-
-An object that maps groups' SteamIDs to their `EClanRelationship` with you. Empty until ['relationships'](#relationships) is emitted. ['group'](#group) is emitted before this object changes.
+Your own SteamID while logged on, otherwise unspecified. Must be set to a valid initial value before sending a logon message ([SteamUser#logOn](lib/handlers/user#logonlogondetails) does that for you).
 
 ## Methods
 
-### logOn(logOnDetails)
+### connect()
 
-Connects to Steam and logs you on upon connecting. `logOnDetails` is an object with the following properties:
+Connects to Steam. It will keep trying to reconnect until encryption handshake is complete (see ['connected'](#connected-1)), unless you cancel it with [disconnect](#disconnect).
 
-* `accountName` - required.
-* `password` - required.
-* `authCode` - Steam Guard code. Must be valid if provided, otherwise the logon will fail. Note that Steam Guard codes expire after a short while.
-* `shaSentryfile` - sentry hash. If not provided, you'll receive one through the ['sentry' event](#sentry) (if the logon succeeds). If no Steam Guard code is provided, the hash must be already registered with this account, otherwise it's ignored.
+You can call this method at any time. If you are already connected, disconnects you first. If there is an ongoing connection attempt, cancels it.
 
-If you provide neither a Steam Guard code nor a sentry hash registered with this account, the logon will fail and you'll receive an email with the code.
+### disconnect()
 
-If you provide both a sentry hash and a valid Steam Guard code, the hash will be registered with this account. This allows you to reuse the same hash for multiple accounts.
+Immediately terminates the connection and prevents any events (including ['error'](#error)) from being emitted until you [connect](#connect) again. If you are already disconnected, does nothing. If there is an ongoing connection attempt, cancels it.
 
-You can call this method at any time. If you are already logged on, logs you off first. If there is an ongoing connection attempt, cancels it.
-
-### logOff()
-
-Logs you off from Steam. If you are already logged off, does nothing. If there is an ongoing connection attempt, cancels it. Will not emit either ['loggedOff'](#loggedoff) or ['error'](#error).
-
-### gamesPlayed(appIDs)
-
-Tells Steam you are playing game(s). `appIDs` is an array of AppIDs, for example `[570]`. Multiple AppIDs can (used to?) be used for multi-game idling.
-
-### setPersonaName(name)
-
-Changes your Steam profile name.
-
-### setPersonaState(EPersonaState)
-
-You'll want to call this with `EPersonaState.Online` upon logon, otherwise you'll show up as offline.
-
-### sendMessage(steamID, message, [EChatEntryType])
-
-Last parameter defaults to `EChatEntryType.ChatMsg`. Another type you might want to use is `EChatEntryType.Emote`.
-
-### addFriend(steamID)
-
-Sends a friend request.
-
-### removeFriend(steamID)
-
-Removes a friend.
-
-### joinChat(steamID)
-
-Attempts to join the specified chat room. The result should arrive in the ['chatEnter' event](#chatenter).
-
-### leaveChat(steamID)
-
-Leaves the specified chat room. Will silently fail if you are not currently in it. Removes the chat from [`chatRooms`](#chatrooms).
-
-### lockChat(steamID), unlockChat(steamID)
-
-Locks and unlocks a chat room respectively.
-
-### setModerated(steamID), setUnmoderated(steamID)
-
-Enables and disables officers-only chat respectively.
-
-### kick(chatSteamID, memberSteamID), ban(chatSteamID, memberSteamID), unban(chatSteamID, memberSteamID)
-
-Self-explanatory.
-
-### chatInvite(chatSteamID, invitedSteamID)
-
-Invites the specified user to the specified chat.
-
-### getSteamLevel(steamids, callback)
-
-Requests the Steam level of a number of specified accounts. The `steamids` argument should be an array of SteamIDs.
-
-The single object parameter of the `callback` has the requested SteamIDs as properties and the level as their values. Example:
-
-```js
-{
-	"76561198006409530": 62,
-	"76561197960287930": 7
-}
-```
-
-### requestFriendData(steamIDs, [requestedData])
-
-Requests friend data. `steamIDs` must be an array. `requestedData` is optional – if falsy, defaults to `EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence | EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo`. The response, if any, should arrive in the ['user' event](#user).
-
-### setIgnoreFriend(steamID, setIgnore, callback)
-
-Blocks a friend if `setIgnore` is `true`, unblocks them if it's `false`. The first argument to `callback` will be `EResult`.
-
-### trade(steamID)
-
-Sends a trade request to the specified user.
-
-### respondToTrade(tradeID, acceptTrade)
-
-Same `tradeID` as the one passed through the ['tradeProposed' event](#tradeproposed). `acceptTrade` should be `true` or `false`.
-
-### cancelTrade(steamID)
-
-Cancels your proposed trade to the specified user.
-
-### toGC(appID, type, body, [args...])
-
-Sends a message to Game Coordinator. `body` must be a serialized message without the header (it will be added by node-steam). `type` must be masked accordingly if it's a protobuf message. If any extra arguments are provided and this message receives a response (JobID-based), they will be passed to the ['fromGC' event](#fromgc) handler.
 
 ## Events
 
 ### 'error'
-* `e` - an `Error` object
 
-Something preventing continued operation of node-steam has occurred. `e.cause` is a string containing one of these values:
-* 'logonFail' - can't log into Steam. `e.eresult` is an `EResult`, the logon response. Some values you might want to handle are `InvalidPassword`, `AlreadyLoggedInElsewhere` and `AccountLogonDenied` (Steam Guard code required).
-* 'loggedOff' - you were logged off for a reason other than Steam going down. `e.eresult` is an `EResult`, most likely `LoggedInElsewhere`.
+Connection closed by the server. Only emitted if the encryption handshake is complete, otherwise it will reconnect automatically. [`loggedOn`](#loggedon) is now `false`.
 
-### 'loggedOn'
+### 'connected'
+
+Encryption handshake complete. From now on, it's your responsibility to handle disconnections and reconnect (see ['error'](#error)). You'll likely want to log on now (see [SteamUser#logOn](lib/handlers/user#logonlogondetails)).
+
+### 'logOnResponse'
 * [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
 
-You can now safely use all API.
-
-### 'sentry'
-* a Buffer containing your Steam Guard sentry file hash
-
-If you didn't provide a hash when logging in, Steam will send you one through this event. If you have Steam Guard enabled, you should save this and use it for your further logons. It will not expire unlike the code.
+Logon response received. If `eresult` is `EResult.OK`, [`loggedOn`](#loggedon) is now `true`.
 
 ### 'servers'
 * an Array containing the up-to-date server list
@@ -233,99 +127,17 @@ node-steam will use this new list when reconnecting, but it will be lost when yo
 Note that `Steam.servers` will be automatically updated _after_ this event is emitted. This will be useful if you want to compare the old list with the new one for some reason - otherwise it shouldn't matter.
 
 ### 'loggedOff'
+* `EResult`
 
-You were logged off from Steam due to it going down. It will keep trying to reconnect and eventually emit either ['loggedOn'](#loggedon-1) or ['error'](#error), unless you cancel it with [logOff](#logoff).
+You were logged off from Steam. [`loggedOn`](#loggedon) is now `false`.
 
-### 'chatInvite'
-* SteamID of the chat you were invited to
-* name of the chat
-* SteamID of the user who invited you
 
-### 'user'
-* [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
+## 'message'/send
 
-Someone has gone offline/online, started a game, changed their nickname or something else. Note that the [`users`](#users) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
+Sending and receiving client messages is designed to be symmetrical, so the event and the method are documented together. Both have the following arguments:
 
-### 'relationships'
-
-The [`friends`](#friends) and [`groups`](#groups) properties now contain data (unless your friend/group list is empty). Listen for this if you want to accept/decline friend requests that came while you were offline, for example.
-
-### 'friend'
-* SteamID of the user
-* `EFriendRelationship`
-
-Some activity in your friend list. For example, `EFriendRelationship.PendingInvitee` means you got a friend invite, `EFriendRelationship.None` means you got removed. The [`friends`](#friends) property is updated after this event is emitted.
-
-### 'group'
-* SteamID of the group
-* `EClanRelationship`
-
-Some activity in your group list. For example, `EClanRelationship.Invited` means you got invited to a group, `EClanRelationship.Kicked` means you got kicked. The [`groups`](#groups) property is updated after this event is emitted.
-
-### 'friendMsg'
-* SteamID of the user
-* the message
-* `EChatEntryType`
-
-### 'chatMsg'
-* SteamID of the chat room
-* the message
-* `EChatEntryType`
-* SteamID of the chatter
-
-### 'message'
-Same arguments as the above two, captures both events. In case of a friend message, the fourth argument will be undefined.
-
-### 'friendMsgEchoToSender'
-Same as '[friendMsg](#friendmsg)', except it is a message you send to a friend on another client.
-
-### 'chatEnter'
-* SteamID of the chat room
-* `EChatRoomEnterResponse`
-
-The result of attempting to join a chat. If successful, the list of chat members is available in [`chatRooms`](#chatrooms).
-
-### 'chatStateChange'
-* `EChatMemberStateChange`
-* SteamID of the user who entered or left the chat room, disconnected, or was kicked or banned
-* SteamID of the chat where it happened
-* SteamID of the user who kicked or banned
-
-Something happened in a chat you are in. For example, if the first argument equals `Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
-
-### 'tradeOffers'
-* New count (can be zero)
-
-Your number of pending incoming trade offers has changed.
-
-### 'tradeProposed'
-* Trade ID
-* SteamID of the user who proposed the trade
-
-You were offered a trade.
-
-### 'tradeResult'
-* Trade ID
-* `EEconTradeResponse`
-* SteamID of the user you sent a trade request
-
-Listen for this event if you are the one sending a trade request.
-
-### 'sessionStart'
-* SteamID of the other party
-
-The trade is now available at http://steamcommunity.com/trade/{SteamID}. You can use [node-steam-trade](https://github.com/seishun/node-steam-trade) to automate the trade itself.
-
-### 'announcement'
-* SteamID of the group
-* headline
-
-Use the group's RSS feed to get the body of the announcement if you want it.
-
-### 'fromGC'
-* appID
-* `type` - masked accordingly for protobuf
-* the message body
-* optional extra args
-
-A message has been received from GC. The extra arguments are the same as passed to [toGC](#togcappid-type-body-callback) if this message is a JobID-based response to it.
+* `header` - an object representing the message header. It has the following properties:
+  * `msg` - `EMsg` (no protomask).
+  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_base.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The following fields are reserved for internal use and shall be ignored: `steamid`, `client_sessionid`, `jobid_source`, `jobid_target`. (Note: pass an empty object if you don't need to set any fields)
+* `body` - a Buffer containing the rest of the message. (Note: in SteamKit2's terms, this is "Body" plus "Payload")
+* `callback` (optional) - if not falsy, then this message is a request, and `callback` shall be called with any response to it instead of 'message'/send. `callback` has the same arguments as 'message'/send.
