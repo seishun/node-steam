@@ -12,6 +12,10 @@ var steamUser = new Steam.SteamUser(steamClient);
 
 Sets `SteamClient#steamID` to the default value for user accounts and sends a ClientLogon message. `logOnDetails` is a [`CMsgClientLogon`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) object. It's used as-is except `protocol_version` is set to the currently implemented protocol version.
 
+### requestWebAPIAuthenticateUserNonce(callback)
+
+Requests a nonce for WebAPI's AuthenticateUser method. The first argument to `callback` will be a [`CMsgClientRequestWebAPIAuthenticateUserNonceResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) object.
+
 ### gamesPlayed(gamesPlayed)
 
 Tells Steam you are playing game(s). `gamesPlayed` is a [`CMsgClientGamesPlayed`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) object.
