@@ -15,7 +15,8 @@
     "adm-zip": "*",
     "buffer-crc32": "*",
     "bytebuffer": ">=3.5.5",
-    "protobufjs": ">=4.0.0"
+    "protobufjs": ">=4.0.0",
+    "steam-crypto": "*"
   },
   "engines": {
     "node": ">=0.12"
