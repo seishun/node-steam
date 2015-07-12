@@ -64,6 +64,8 @@ Whenever a method accepts (or an event provides) a `CMsgSomething`, it's an obje
 * `bytes` fields: Buffer objects
 * `bool` fields: Boolean
 
+See the [wiki](https://github.com/seishun/node-steam/wiki/Protobufs) for descriptions of protobuf fields.
+
 # Handlers
 
 Most of the API is provided by handler classes that internally send and receive low-level client messages using ['message'/send](#messagesend):
