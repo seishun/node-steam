@@ -32,7 +32,7 @@ var steamUser = new Steam.SteamUser(steamClient);
 steamClient.connect();
 steamClient.on('connected', function() {
   steamUser.logOn({
-    accountName: 'username',
+    account_name: 'username',
     password: 'password'
   });
 });
