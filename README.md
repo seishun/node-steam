@@ -2,6 +2,7 @@
 
 This is a node port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
 
+**Please read the [release notes](https://github.com/seishun/node-steam/releases/tag/v1.0.0) for v1.0.0.**
 
 # Installation
 
