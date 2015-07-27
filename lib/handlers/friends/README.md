@@ -136,7 +136,7 @@ The [`friends`](#friends) and [`groups`](#groups) properties now contain data (u
 * SteamID of the user
 * `EFriendRelationship`
 
-Some activity in your friend list. For example, `EFriendRelationship.PendingInvitee` means you got a friend invite, `EFriendRelationship.None` means you got removed. The [`friends`](#friends) property is updated after this event is emitted.
+Some activity in your friend list. For example, `EFriendRelationship.RequestRecipient` means you got a friend invite, `EFriendRelationship.None` means you got removed. The [`friends`](#friends) property is updated after this event is emitted.
 
 ### 'group'
 * SteamID of the group
