@@ -174,3 +174,12 @@ The result of attempting to join a chat. If successful, the list of chat members
 * SteamID of the user who kicked or banned
 
 Something happened in a chat you are in. For example, if the first argument equals `Steam.EChatMemberStateChange.Kicked`, then someone got kicked.
+
+### 'chatRoomInfo'
+* SteamID of the chat
+* `EChatInfoType`
+
+In case of `EChatInfoType.InfoUpdate`, there are two extra arguments:
+
+* A bitset of values from `EChatFlags`
+* SteamID of the user who initiated the change
