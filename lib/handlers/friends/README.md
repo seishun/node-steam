@@ -105,7 +105,7 @@ The single object parameter of the `callback` has the requested SteamIDs as prop
 
 ### requestFriendData(steamIDs, [requestedData])
 
-Requests friend data. `steamIDs` must be an array. `requestedData` is optional – if falsy, defaults to `EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence | EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo`. The response, if any, should arrive in the ['user' event](#user).
+Requests friend data. `steamIDs` must be an array. `requestedData` is optional – if falsy, defaults to `EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence | EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo`. The response, if any, should arrive in the ['personaState' event](#personastate).
 
 ### setIgnoreFriend(steamID, setIgnore, callback)
 
