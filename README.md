@@ -1,5 +1,10 @@
 # Steam for Node.js and io.js
 
+[![NPM version](https://img.shields.io/npm/v/steam.svg)](https://npmjs.org/package/steam "View this project on NPM")
+[![Dependency Status](https://img.shields.io/david/seishun/node-steam.svg)](https://david-dm.org/seishun/node-steam)
+[![PayPal donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Y83UZQZBJXEXQ&item_name=node%2dsteam&currency_code=EUR
+ "Donate once-off to this project using PayPal")
+
 This is a node port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
 
 **Please read the [release notes](https://github.com/seishun/node-steam/releases/tag/v1.0.0) for v1.0.0.**
