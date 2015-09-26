@@ -80,6 +80,7 @@ Most of the API is provided by handler classes that internally send and receive 
 * [SteamFriends](lib/handlers/friends) - Community functionality, such as chats and friend messages.
 * [SteamTrading](lib/handlers/trading) - sending and receiving trade requests. Not to be confused with trade offers.
 * [SteamGameCoordinator](lib/handlers/game_coordinator) - sending and receiving Game Coordinator messages.
+* [SteamUnifiedMessages](lib/handlers/unified_messages) - sending and receiving unified messages.
 
 If you think some unimplemented functionality belongs in one of the existing handlers, feel free to submit an issue to discuss it.
 
