@@ -14,7 +14,7 @@
     "bytebuffer": "^4.0",
     "protobufjs": "https://github.com/dcodeIO/ProtoBuf.js.git#9c91f7e362",
     "steam-crypto": "^0.0",
-    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v0.1.0"
+    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v0.1.1"
   },
   "bundledDependencies": ["protobufjs", "steam-resources"],
   "engines": {
