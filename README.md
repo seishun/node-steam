@@ -14,7 +14,7 @@ This is a Node.js port of [SteamKit2](https://github.com/SteamRE/SteamKit). It l
 npm install steam
 ```
 
-Note: when installing from git, you have to additionally run `npm install` inside `steam/node_modules/steam-resources` to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`. Afterwards, delete the `node_modules` directory in `steam-resources`.
+Note: when installing from git, you have to additionally run `npm install` inside `steam/node_modules/steam-resources` to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
 
 **Note: only Node.js v4.1.1 and above is supported.**
 

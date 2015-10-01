@@ -11,13 +11,11 @@
   "dependencies": {
     "adm-zip": "^0.4",
     "buffer-crc32": "^0.2",
-    "bytebuffer": "^4.0",
-    "protobufjs": "https://github.com/dcodeIO/ProtoBuf.js.git#9c91f7e362",
+    "bytebuffer": "^4.1",
     "steam-crypto": "^0.0",
-    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v0.1.1"
+    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v0.2.0"
   },
   "bundledDependencies": [
-    "protobufjs",
     "steam-resources"
   ],
   "engines": {
