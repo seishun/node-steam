@@ -1,13 +1,12 @@
-# Steam for Node.js and io.js
+# Steam for Node.js
 
 [![NPM version](https://img.shields.io/npm/v/steam.svg)](https://npmjs.org/package/steam "View this project on NPM")
 [![Dependency Status](https://img.shields.io/david/seishun/node-steam.svg)](https://david-dm.org/seishun/node-steam)
 [![PayPal donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Y83UZQZBJXEXQ&item_name=node%2dsteam&currency_code=EUR
  "Donate once-off to this project using PayPal")
 
-This is a node port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
+This is a Node.js port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets you interface with Steam without running an actual Steam client. Could be used to run an autonomous chat/trade bot.
 
-**Please read the [release notes](https://github.com/seishun/node-steam/releases/tag/v1.0.0) for v1.0.0.**
 
 # Installation
 
@@ -15,9 +14,9 @@ This is a node port of [SteamKit2](https://github.com/SteamRE/SteamKit). It lets
 npm install steam
 ```
 
-Note: when installing from git, you have to additionally run `npm install` inside the project directory to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
+Note: when installing from git, you have to additionally run `npm install` inside `steam/node_modules/steam-resources` to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
 
-**Note: only Node.js v0.12 and io.js v2.x are supported.**
+**Note: only Node.js v4.1.1 and above is supported.**
 
 # Usage
 First, `require` this module.
@@ -80,6 +79,7 @@ Most of the API is provided by handler classes that internally send and receive 
 * [SteamFriends](lib/handlers/friends) - Community functionality, such as chats and friend messages.
 * [SteamTrading](lib/handlers/trading) - sending and receiving trade requests. Not to be confused with trade offers.
 * [SteamGameCoordinator](lib/handlers/game_coordinator) - sending and receiving Game Coordinator messages.
+* [SteamUnifiedMessages](lib/handlers/unified_messages) - sending and receiving unified messages.
 
 If you think some unimplemented functionality belongs in one of the existing handlers, feel free to submit an issue to discuss it.
 
