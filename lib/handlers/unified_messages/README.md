@@ -10,7 +10,7 @@ var steamUnifiedMessages = new Steam.SteamUnifiedMessages(steamClient, 'Parental
 
 ### send(method, body, [callback])
 
-Calls the specified `method` of the service this `SteamUnifiedMessages` instance was initialized with. `body` is this method's input type object. If not falsy, `callback` will be called with an `EResult` and this method's output type object, otherwise this call is considered a notification.
+Calls the specified `method` of the service this SteamUnifiedMessages instance was initialized with. `body` is this method's input type object. If not falsy, `callback` will be called with an `EResult` and this method's output type object, otherwise this call is considered a notification.
 
 ## Events
 
@@ -18,4 +18,4 @@ Calls the specified `method` of the service this `SteamUnifiedMessages` instance
 * Method name
 * The method's input type object
 
-A notification was received from the service this `SteamUnifiedMessages` instance was initialized with.
+A notification was received from the service this SteamUnifiedMessages instance was initialized with.

@@ -80,6 +80,7 @@ Most of the API is provided by handler classes that internally send and receive 
 * [SteamTrading](lib/handlers/trading) - sending and receiving trade requests. Not to be confused with trade offers.
 * [SteamGameCoordinator](lib/handlers/game_coordinator) - sending and receiving Game Coordinator messages.
 * [SteamUnifiedMessages](lib/handlers/unified_messages) - sending and receiving unified messages.
+* [SteamRichPresence](lib/handlers/rich_presence) - sending and receiving Rich Presence messages.
 
 If you think some unimplemented functionality belongs in one of the existing handlers, feel free to submit an issue to discuss it.
 
