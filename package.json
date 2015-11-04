@@ -11,9 +11,9 @@
   "dependencies": {
     "adm-zip": "^0.4",
     "buffer-crc32": "^0.2",
-    "bytebuffer": "^4.1",
+    "bytebuffer": "^5.0",
     "steam-crypto": "^0.0",
-    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v0.2.0"
+    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v1.0.0"
   },
   "bundledDependencies": [
     "steam-resources"
