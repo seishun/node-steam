@@ -9,7 +9,6 @@
     "url": "https://github.com/seishun/node-steam.git"
   },
   "dependencies": {
-    "adm-zip": "^0.4",
     "buffer-crc32": "^0.2",
     "bytebuffer": "^5.0",
     "steam-crypto": "^0.0",
