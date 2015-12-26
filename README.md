@@ -96,6 +96,10 @@ A boolean that indicates whether you are currently connected and the encryption 
 
 A boolean that indicates whether you are currently logged on. Calling any handler methods other than [SteamUser#logOn](lib/handlers/user#logonlogondetails) is only allowed while logged on.
 
+### sessionID
+
+Your session ID while logged on, otherwise unspecified. (Note: this has nothing to do with the "sessionid" cookie)
+
 ### steamID
 
 Your own SteamID while logged on, otherwise unspecified. Must be set to a valid initial value before sending a logon message ([SteamUser#logOn](lib/handlers/user#logonlogondetails) does that for you).
