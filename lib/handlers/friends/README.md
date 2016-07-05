@@ -183,3 +183,8 @@ In case of `EChatInfoType.InfoUpdate`, there are two extra arguments:
 
 * A bitset of values from `EChatFlags`
 * SteamID of the user who initiated the change
+
+### 'gameInvite'
+* SteamID of the user who invited you
+* gameid of the game they are playing
+* connect_string to pass to the application to join
