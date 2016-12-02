@@ -55,3 +55,12 @@ steamFriends.on('clanState', function(clanState) {
     console.log('Group with SteamID ' + clanState.steamid_clan + ' has posted ' + clanState.announcements[0].headline);
   }
 });
+
+bot.on('relationships', function () {
+  for(var friend in bot.friends) {
+    if(bot.friends[friend] === Steam.EFriendRelationship.PendingInvitee) {
+      bot.addFriend(friend);
+      console.log('SteamID ' + friend + ' added!')
+    }
+  }
+});
