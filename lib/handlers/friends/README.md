@@ -58,6 +58,10 @@ You'll want to call this with `EPersonaState.Online` upon logon, otherwise you'l
 
 Last parameter defaults to `EChatEntryType.ChatMsg`. Another type you might want to use is `EChatEntryType.Emote`.
 
+### requestChatHistory(steamID)
+
+Request your chat history and unread offline messages with another user. You'll get the results in the ['messageHistory' event](#messagehistory).
+
 ### addFriend(steamID)
 
 Sends a friend request.
@@ -160,6 +164,18 @@ Same arguments as the above two, captures both events. In case of a friend messa
 
 ### 'friendMsgEchoToSender'
 Same as '[friendMsg](#friendmsg)', except it is a message you send to a friend on another client.
+
+### 'messageHistory'
+* SteamID of the user with whom we're getting our history
+* A value from `Steam.EResult` (if this is `Steam.EResult.OK` then this is a successful response)
+* An array of message objects
+
+The result of requesting your chat history with a user. Each message object has the following properties:
+
+* `timestamp` - A unix timestamp for when this message was sent
+* `message` - The message text
+* `unread` - `true` if this is an unread offline message, `false` if it's just a history message
+* `steamid` - The `SteamID` of the message sender (can be either you or the other user)
 
 ### 'chatEnter'
 * SteamID of the chat room
