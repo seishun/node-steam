@@ -106,11 +106,13 @@ Your own SteamID while logged on, otherwise unspecified. Must be set to a valid 
 
 ## Methods
 
-### connect()
+### connect([localAddress][, localPort])
 
 Connects to Steam. It will keep trying to reconnect until encryption handshake is complete (see ['connected'](#connected-1)), unless you cancel it with [disconnect](#disconnect).
 
 You can call this method at any time. If you are already connected, disconnects you first. If there is an ongoing connection attempt, cancels it.
+
+Both `localAddress` and `localPort` are optional. If provided, SteamClient will use `localAddress` to connect to Steam. The same goes for `localPort`.
 
 ### disconnect()
 
