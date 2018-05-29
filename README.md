@@ -128,7 +128,7 @@ Connection closed by the server. Only emitted if the encryption handshake is com
 Encryption handshake complete. From now on, it's your responsibility to handle disconnections and reconnect (see ['error'](#error)). You'll likely want to log on now (see [SteamUser#logOn](lib/handlers/user#logonlogondetails)).
 
 ### 'logOnResponse'
-* [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
+* [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_login.proto)
 
 Logon response received. If `eresult` is `EResult.OK`, [`loggedOn`](#loggedon) is now `true`.
 

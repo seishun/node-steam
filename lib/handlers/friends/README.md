@@ -12,7 +12,7 @@ Chat-related methods automatically convert ClanIDs (group's SteamID) to ChatIDs.
 
 ### personaStates
 
-Information about users you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto) objects.
+Information about users you have encountered. It's an object whose keys are SteamIDs and values are [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_friends.proto) objects.
 
 ### clanStates
 
@@ -119,7 +119,7 @@ Blocks a friend if `setIgnore` is `true`, unblocks them if it's `false`. The fir
 * SteamID of the user who invited you
 
 ### 'personaState'
-* [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
+* [`CMsgClientPersonaState.Friend`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver_friends.proto)
 
 Someone has gone offline/online, started a game, changed their nickname or something else. Note that the [`personaStates`](#personastates) property is not yet updated when this event is fired, so you can compare the new state with the old one to see what changed.
 
