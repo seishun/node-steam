@@ -1,24 +1,30 @@
 {
-  "name": "steam",
-  "version": "1.4.0",
-  "description": "Lets you interface with Steam without running an actual Steam client",
-  "author": "Nicholas <vvnicholas@gmail.com>",
-  "main": "./lib/steam_client",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/seishun/node-steam.git"
-  },
-  "dependencies": {
-    "adm-zip": "^0.4",
-    "buffer-crc32": "^0.2",
-    "bytebuffer": "^5.0",
-    "steam-crypto": "^0.0",
-    "steam-resources": "https://github.com/seishun/node-steam-resources.git#v1.0.0"
-  },
-  "bundledDependencies": [
-    "steam-resources"
-  ],
-  "engines": {
-    "node": ">=4.1.1"
-  }
+    "name": "kiat-steam",
+    "version": "1.4.1",
+    "description": "Lets you interface with Steam without running an actual Steam client",
+    "author": "Hongarc <anhong12121997t@gmail.com>",
+    "main": "./lib/steam_client",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Hongarc/kiat-steam.git"
+    },
+    "scripts": {
+        "lint": "eslint lib/** --fix"
+    },
+    "dependencies": {
+        "adm-zip": "^0.4",
+        "buffer-crc32": "^0.2",
+        "bytebuffer": "^5.0",
+        "steam-crypto": "^0.0",
+        "steam-resources": "https://github.com/seishun/node-steam-resources.git#v1.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^4.19.1"
+    },
+    "bundledDependencies": [
+        "steam-resources"
+    ],
+    "engines": {
+        "node": ">=4.1.1"
+    }
 }

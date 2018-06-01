@@ -1,2 +1,11 @@
+#Node
 node_modules
-npm-debug.log
+
+#Intellij
+.idea/
+
+#Test
+test.js
+
+#Yarn
+yarn.lock

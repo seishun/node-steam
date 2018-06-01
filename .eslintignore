@@ -1,0 +1,11 @@
+# Yarn
+yarn-error.log
+yarn.lock
+
+# Intellij
+/.idea/
+
+# Other
+.gitignore
+package.json
+README.md
