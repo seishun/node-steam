@@ -1,29 +1,43 @@
 {
     "name": "kiat-steam",
-    "version": "1.4.1",
+    "version": "2.0.3",
     "description": "Lets you interface with Steam without running an actual Steam client",
     "author": "Hongarc <anhong12121997t@gmail.com>",
+    "maintainers": {
+        "name": "Hongarc",
+        "email": "anhong12121997t@gmail.com"
+    },
+    "keywords": [
+        "steam",
+        "steamkit2"
+    ],
+    "bugs": "https://github.com/Hongarc/kiat-steam/issues",
+    "license": "MIT",
+    "files": [
+        "lib/**.js",
+        "steam-resources/**.proto",
+        "steam-resources/**.steamd",
+        "steam-resources/**.js"
+    ],
     "main": "./lib/steam_client",
     "repository": {
         "type": "git",
         "url": "https://github.com/Hongarc/kiat-steam.git"
     },
     "scripts": {
-        "lint": "eslint lib/** --fix"
+        "lint": "eslint lib/** --fix",
+        "resource": "git clone https://github.com/seishun/node-steam-resources.git steam-resources"
     },
     "dependencies": {
         "adm-zip": "^0.4",
         "buffer-crc32": "^0.2",
         "bytebuffer": "^5.0",
-        "steam-crypto": "^0.0",
-        "steam-resources": "https://github.com/seishun/node-steam-resources.git#v1.0.0"
+        "protobufjs": "^4.1",
+        "steam-crypto": "^0.0"
     },
     "devDependencies": {
         "eslint": "^4.19.1"
     },
-    "bundledDependencies": [
-        "steam-resources"
-    ],
     "engines": {
         "node": ">=4.1.1"
     }
