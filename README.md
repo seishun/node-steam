@@ -128,7 +128,7 @@ Connection closed by the server. Only emitted if the encryption handshake is com
 Encryption handshake complete. From now on, it's your responsibility to handle disconnections and reconnect (see ['error'](#error)). You'll likely want to log on now (see [SteamUser#logOn](lib/handlers/user#logonlogondetails)).
 
 ### 'logOnResponse'
-* [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
+* [`CMsgClientLogonResponse`](https://github.com/SteamDatabase/Protobufs/blob/master/steam/steammessages_clientserver_login.proto)
 
 Logon response received. If `eresult` is `EResult.OK`, [`loggedOn`](#loggedon) is now `true`.
 
@@ -151,6 +151,6 @@ Sending and receiving client messages is designed to be symmetrical, so the even
 
 * `header` - an object representing the message header. It has the following properties:
   * `msg` - `EMsg` (no protomask).
-  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_base.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The following fields are reserved for internal use and shall be ignored: `steamid`, `client_sessionid`, `jobid_source`, `jobid_target`. (Note: pass an empty object if you don't need to set any fields)
+  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamDatabase/Protobufs/blob/master/steam/steammessages_base.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The following fields are reserved for internal use and shall be ignored: `steamid`, `client_sessionid`, `jobid_source`, `jobid_target`. (Note: pass an empty object if you don't need to set any fields)
 * `body` - a Buffer containing the rest of the message. (Note: in SteamKit2's terms, this is "Body" plus "Payload")
 * `callback` (optional) - if not falsy, then this message is a request, and `callback` shall be called with any response to it instead of 'message'/send. `callback` has the same arguments as 'message'/send.
