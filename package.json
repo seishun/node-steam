@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/seishun/node-steam.git"
   },
+  "scripts": {
+    "prepare": "curl -fo servers.json 'https://api.steampowered.com/ISteamDirectory/GetCMList/v1/?cellid=0'"
+  },
   "dependencies": {
     "adm-zip": "^0.4",
     "buffer-crc32": "^0.2",

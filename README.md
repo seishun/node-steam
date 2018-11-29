@@ -14,7 +14,7 @@ This is a Node.js port of [SteamKit2](https://github.com/SteamRE/SteamKit). It l
 npm install steam
 ```
 
-Note: installing from git requires `svn` to fetch Steam resources (Protobufs and SteamLanguage).
+Note: installing from git requires `svn` to fetch Steam resources (Protobufs and SteamLanguage) and `curl` to fetch the server list.
 
 **Note: only Node.js v4.1.1 and above is supported.**
 
@@ -48,7 +48,7 @@ See example.js for the usage of some of the available API.
 
 # Servers
 
-`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (see [servers.js](https://github.com/seishun/node-steam/blob/master/lib/servers.js)) is not always up-to-date and might contain dead servers. To avoid timeouts, replace it with your own list before logging in if you have one (see ['servers' event](#servers-1)).
+`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (fetched in [prepare](https://docs.npmjs.com/misc/scripts)) can get out of date and thus contain dead servers. To avoid timeouts, replace it with your own list before logging in if you have one (see ['servers' event](#servers-1)).
 
 # SteamID
 
