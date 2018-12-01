@@ -12,7 +12,7 @@
     "prepare": "curl -fo servers.json 'https://api.steampowered.com/ISteamDirectory/GetCMList/v1/?cellid=0'"
   },
   "dependencies": {
-    "adm-zip": "^0.4",
+    "adm-zip": "^0.4.13",
     "buffer-crc32": "^0.2",
     "bytebuffer": "^5.0",
     "steam-crypto": "^0.0",
