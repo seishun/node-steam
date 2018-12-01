@@ -1,9 +1,11 @@
 var fs = require('fs');
-var Steam = require('steam');
+var Steam = require('./');
+
+var serversFile = './serverList.json';
 
 // if we've saved a server list, use it
-if (fs.existsSync('servers')) {
-  Steam.servers = JSON.parse(fs.readFileSync('servers'));
+if (fs.existsSync(serversFile)) {
+  Steam.servers = JSON.parse(fs.readFileSync(serversFile));
 }
 
 var steamClient = new Steam.SteamClient();
@@ -28,7 +30,7 @@ steamClient.on('logOnResponse', function(logonResp) {
 });
 
 steamClient.on('servers', function(servers) {
-  fs.writeFile('servers', JSON.stringify(servers));
+  fs.writeFileSync(serversFile, JSON.stringify(servers));
 });
 
 steamFriends.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
