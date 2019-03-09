@@ -28,7 +28,7 @@ steamClient.on('logOnResponse', function(logonResp) {
 });
 
 steamClient.on('servers', function(servers) {
-  fs.writeFile('servers', JSON.stringify(servers));
+  fs.writeFileSync('servers', JSON.stringify(servers));
 });
 
 steamFriends.on('chatInvite', function(chatRoomID, chatRoomName, patronID) {
