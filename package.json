@@ -2,6 +2,7 @@
   "name": "steam",
   "version": "1.4.0",
   "description": "Lets you interface with Steam without running an actual Steam client",
+  "license": "MIT",
   "author": "Nikolai Vavilov <vvnicholas@gmail.com>",
   "main": "./lib/steam_client",
   "repository": {
