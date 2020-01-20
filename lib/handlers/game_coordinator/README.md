@@ -14,7 +14,7 @@ Sending and receiving Game Coordinator messages is designed to be symmetrical, s
 
 * `header` - an object representing the message header. It has the following properties:
   * `msg` - the game-specific "type" of the message (no protomask).
-  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protogen/gc.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The fields `job_id_source` and `job_id_target` are reserved for internal use and shall be ignored. (Note: pass an empty object if you don't need to set any fields)
+  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamRE/SteamKit/blob/master/Resources/ProtobufGen/gc.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The fields `job_id_source` and `job_id_target` are reserved for internal use and shall be ignored. (Note: pass an empty object if you don't need to set any fields)
 * `body` - a Buffer containing the rest of the message. (Note: in SteamKit2's terms, this is "Body" plus "Payload")
 * `callback` (optional) - if not falsy, then this message is a request, and `callback` shall be called with any response to it instead of 'message'/send. `callback` has the same arguments as 'message'/send.
 
