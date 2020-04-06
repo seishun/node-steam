@@ -32,3 +32,6 @@ Call `callback` with a [`CMsgClientUpdateMachineAuthResponse`](https://github.co
 * New count (can be zero)
 
 Your number of pending incoming trade offers has changed.
+
+### 'loginKey'
+* [`CMsgClientNewLoginKey`](https://github.com/SteamDatabase/Protobufs/blob/master/steam/steammessages_clientserver_login.proto)
